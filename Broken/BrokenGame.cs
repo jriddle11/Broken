@@ -4,14 +4,13 @@ using Microsoft.Xna.Framework.Input;
 
 namespace Broken
 {
-    public class Game1 : Game
+    public class BrokenGame : Game
     {
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
-        private Texture2D _swordTexture;
-        private Vector2 _swordPosition;
+        private MainMenu _mainMenu;
 
-        public Game1()
+        public BrokenGame()
         {
             _graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
@@ -24,7 +23,8 @@ namespace Broken
             _graphics.PreferredBackBufferHeight = 800;
             _graphics.PreferredBackBufferWidth = 1600;
             _graphics.ApplyChanges();
-            _swordPosition = new Vector2(_graphics.GraphicsDevice.Viewport.Width / 2 + 100, _graphics.GraphicsDevice.Viewport.Height);
+            
+            _mainMenu = new MainMenu(_graphics);
             base.Initialize();
         }
 
@@ -33,7 +33,7 @@ namespace Broken
             _spriteBatch = new SpriteBatch(GraphicsDevice);
 
             // TODO: use this.Content to load your game content here
-            _swordTexture = Content.Load<Texture2D>("RuneSwordPixel");
+            _mainMenu.LoadContent(this);
         }
 
         protected override void Update(GameTime gameTime)
@@ -42,7 +42,7 @@ namespace Broken
                 Exit();
 
             // TODO: Add your update logic here
-
+            _mainMenu.Update(gameTime);
             base.Update(gameTime);
         }
 
@@ -52,7 +52,7 @@ namespace Broken
 
             // TODO: Add your drawing code here
             _spriteBatch.Begin();
-            _spriteBatch.Draw(_swordTexture, _swordPosition, null, Color.White, MathHelper.Pi, Vector2.Zero, 1f, SpriteEffects.None, 0f);
+            _mainMenu.Draw(_spriteBatch);
             _spriteBatch.End();
             base.Draw(gameTime);
         }
