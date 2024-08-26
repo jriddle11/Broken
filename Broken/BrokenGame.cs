@@ -8,7 +8,8 @@ namespace Broken
     {
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
-        private MainMenu _mainMenu;
+        private MainMenuController _mainMenu;
+        private GameController _gameController;
 
         public BrokenGame()
         {
@@ -23,8 +24,10 @@ namespace Broken
             _graphics.PreferredBackBufferHeight = 800;
             _graphics.PreferredBackBufferWidth = 1600;
             _graphics.ApplyChanges();
-            
-            _mainMenu = new MainMenu(_graphics);
+
+            _mainMenu = new MainMenuController(_graphics);
+            _gameController = new GameController();
+
             base.Initialize();
         }
 
@@ -32,17 +35,16 @@ namespace Broken
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
 
-            // TODO: use this.Content to load your game content here
             _mainMenu.LoadContent(this);
+            _gameController.LoadContent(this);
         }
 
         protected override void Update(GameTime gameTime)
         {
-            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
-                Exit();
+            InputManager.Update(this);
 
-            // TODO: Add your update logic here
-            _mainMenu.Update(gameTime);
+            _mainMenu.Update(this, gameTime);
+
             base.Update(gameTime);
         }
 
@@ -50,11 +52,18 @@ namespace Broken
         {
             GraphicsDevice.Clear(Color.Black);
 
-            // TODO: Add your drawing code here
             _spriteBatch.Begin();
             _mainMenu.Draw(_spriteBatch);
+            _gameController.Draw(_spriteBatch);
             _spriteBatch.End();
+
             base.Draw(gameTime);
+        }
+
+        public void HandleStartGame()
+        {
+            _mainMenu.IsActive = false;
+            _gameController.StartGame();
         }
     }
 }

@@ -1,0 +1,136 @@
+﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using Broken.Common.ParticleSystem;
+using Broken.Common.GameTimer;
+using System.Collections.Generic;
+
+namespace Broken
+{
+    public class MainMenuController
+    {
+        public int HighlightedOption = 0;
+        public bool IsActive = true;
+
+        private GraphicsDeviceManager _graphics;
+        private Texture2D _mainMenuBg;
+        private MenuText[] _menuButtons;
+        private List<IGameObject> _staticGameObjects = new();
+
+        public MainMenuController(GraphicsDeviceManager graphics)
+        {
+            _graphics = graphics;
+
+            Color highlightColor = new Color(99, 215, 210);
+            Color fogColor = new Color(49, 97, 94);
+            var weaponPos = new Vector2(graphics.GraphicsDevice.Viewport.Width - 250, graphics.GraphicsDevice.Viewport.Height - 50);
+            var fogPos = new Vector2(graphics.GraphicsDevice.Viewport.Width - 350, graphics.GraphicsDevice.Viewport.Height / 2);
+
+            _menuButtons = new MenuText[]
+            {
+                new MenuText("START", new Vector2(330, 200), Color.WhiteSmoke, highlightColor),
+                new MenuText("SETTINGS", new Vector2(330, 310), Color.WhiteSmoke, highlightColor),
+                new MenuText("CREDITS", new Vector2(330, 420), Color.WhiteSmoke, highlightColor),
+                new MenuText("QUIT", new Vector2(330, 530), Color.WhiteSmoke, highlightColor)
+            };
+
+            _staticGameObjects.Add(new ParticleSystem(fogPos, "My Assets/Fog", fogColor, 0.1f, 50f));
+            _staticGameObjects.Add(new MenuWeapon(graphics, weaponPos, -13, 25));
+        }
+
+        public void LoadContent(Game game)
+        {
+            _mainMenuBg = game.Content.Load<Texture2D>("My Assets/MainMenuBg");
+            foreach(var button in _menuButtons) button.LoadContent(game);
+            foreach(var obj in _staticGameObjects) obj.LoadContent(game);
+        }
+
+        public void Update(BrokenGame game, GameTime gameTime)
+        {
+            if(!IsActive) return;
+
+            foreach(var obj in _staticGameObjects) obj.Update(gameTime);
+
+            #region Highlighting Buttons
+
+            //Keyboard
+            if (InputManager.PressedDown) HighlightedOption = (HighlightedOption + 1) % 4;
+            if (InputManager.PressedUp)
+            {
+                HighlightedOption -= 1;
+                if(HighlightedOption < 0) HighlightedOption = 3;
+            }
+
+            //Mouse
+            bool isHovering = false;
+            ClearButtonHighlights();
+            for(int i = 0; i < _menuButtons.Length; ++i)
+            {
+                if (_menuButtons[i].IsMouseHovering(gameTime))
+                {
+                    _menuButtons[i].IsHighlighted = true;
+                    _menuButtons[i].Scale = 1.1f;
+                    HighlightedOption = i;
+                    isHovering = true;
+                    break;
+                }
+            }
+            if (!isHovering)
+            {
+                _menuButtons[HighlightedOption].Scale = 1.1f;
+                _menuButtons[HighlightedOption].IsHighlighted = true;
+            }
+
+            #endregion
+
+            #region Selecting Buttons
+
+            if (InputManager.Mouse1Clicked && _menuButtons[HighlightedOption].IsMouseHovering(gameTime))
+            {
+                HandleSelection(game);
+            }
+
+            #endregion
+        }
+
+        private void HandleSelection(BrokenGame game)
+        {
+            switch (HighlightedOption)
+            {
+                case 0:
+                    //Selected "START"
+                    game.HandleStartGame();
+                    break;
+                case 1:
+                    //Selected "SETTINGS"
+
+                    break;
+                case 2:
+                    //Selected "CREDITS"
+
+                    break;
+                case 3:
+                    //Selected "QUIT"
+                    game.Exit();
+                    break;
+            }
+        }
+
+        public void Draw(SpriteBatch spriteBatch)
+        {
+            if (!IsActive) return;
+
+            spriteBatch.Draw(_mainMenuBg, Vector2.Zero, Color.White);
+            foreach(var obj in _staticGameObjects) obj.Draw(spriteBatch);
+            foreach(var button in _menuButtons) button.Draw(spriteBatch);
+        }
+
+        private void ClearButtonHighlights()
+        {
+            foreach (var button in _menuButtons)
+            {
+                button.IsHighlighted = false;
+                button.Scale = 1f;
+            }
+        }
+    }
+}
