@@ -119,8 +119,9 @@ namespace Broken
         {
             if (!IsActive) return;
 
-            spriteBatch.Draw(_mainMenuBg, Vector2.Zero, Color.White);
-            foreach(var obj in _staticGameObjects) obj.Draw(spriteBatch);
+            var bgScale = new Vector2((float)_graphics.GraphicsDevice.Viewport.Width /_mainMenuBg.Width, (float)_graphics.GraphicsDevice.Viewport.Height / _mainMenuBg.Height);
+            spriteBatch.Draw(_mainMenuBg, Vector2.Zero, null, Color.White, 0f, Vector2.Zero, bgScale, SpriteEffects.None, 0f);
+            foreach (var obj in _staticGameObjects) obj.Draw(spriteBatch);
             foreach(var button in _menuButtons) button.Draw(spriteBatch);
         }
 
