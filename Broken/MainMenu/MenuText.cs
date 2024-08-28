@@ -44,9 +44,10 @@ namespace Broken
 
         }
 
-        public void Draw(SpriteBatch spriteBatch)
+        public void Draw(SpriteBatch spriteBatch, float opacity = 1f)
         {
             Color color = IsHighlighted ? HighLightColor : FontColor;
+            color *= opacity;
             Vector2 textSize = _jorvikFont.MeasureString(Text);
             spriteBatch.DrawString(_jorvikFont, Text, Position, color, 0f, textSize / 2, Scale, SpriteEffects.None, 0f);
         }

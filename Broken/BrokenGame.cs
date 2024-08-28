@@ -20,13 +20,14 @@ namespace Broken
 
         protected override void Initialize()
         {
-            // TODO: Add your initialization logic here
-            _graphics.PreferredBackBufferWidth = 1600;
-            _graphics.PreferredBackBufferHeight = 800;
+            _graphics.HardwareModeSwitch = false; // Borderless window instead of exclusive fullscreen
+            _graphics.PreferredBackBufferWidth = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width;
+            _graphics.PreferredBackBufferHeight = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height;
+            //Window.IsBorderless = true;
             _graphics.ApplyChanges();
 
             _mainMenu = new MainMenuController(_graphics);
-            _gameController = new GameController();
+            _gameController = new GameController(_graphics);
 
             base.Initialize();
         }
@@ -50,7 +51,7 @@ namespace Broken
 
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.Black);
+            GraphicsDevice.Clear(new Color(19,19,19));
 
             _spriteBatch.Begin();
             _mainMenu.Draw(_spriteBatch);
@@ -62,7 +63,7 @@ namespace Broken
 
         public void HandleStartGame()
         {
-            _mainMenu.IsActive = false;
+            _mainMenu.MenuIsActive = false;
             _gameController.StartGame();
         }
     }

@@ -9,6 +9,6 @@ namespace Broken
 
         void Update(GameTime gameTime);
 
-        void Draw(SpriteBatch spriteBatch);
+        void Draw(SpriteBatch spriteBatch, float opacity = 1f);
     }
 }

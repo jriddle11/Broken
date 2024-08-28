@@ -36,9 +36,9 @@ namespace Broken
             }
         }
 
-        public void Draw(SpriteBatch spriteBatch)
+        public void Draw(SpriteBatch spriteBatch, float opacity = 1f)
         {
-            spriteBatch.Draw(_swordTexture, Position, null, Color.White, MathHelper.Pi, Vector2.Zero, 1f, SpriteEffects.None, 0f);
+            spriteBatch.Draw(_swordTexture, Position, null, Color.White * opacity, MathHelper.Pi, Vector2.Zero, 1f, SpriteEffects.None, 0f);
         }
     }
 }

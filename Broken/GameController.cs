@@ -13,6 +13,12 @@ namespace Broken
 
         private bool _isActive;
         private Texture2D _placeholderTexture;
+        private GraphicsDeviceManager _graphics;
+
+        public GameController(GraphicsDeviceManager graphics)
+        {
+            _graphics = graphics;
+        }
 
         public void LoadContent(Game game)
         {
@@ -33,8 +39,8 @@ namespace Broken
         public void Draw(SpriteBatch spriteBatch)
         {
             if(!_isActive) return;
-
-            spriteBatch.Draw(_placeholderTexture, Vector2.Zero, Color.White);
+            var bgScale = new Vector2((float)_graphics.GraphicsDevice.Viewport.Width / _placeholderTexture.Width, (float)_graphics.GraphicsDevice.Viewport.Height / _placeholderTexture.Height);
+            spriteBatch.Draw(_placeholderTexture, Vector2.Zero, null, Color.White, 0f, Vector2.Zero, bgScale, SpriteEffects.None, 0f);
         }
     }
 }

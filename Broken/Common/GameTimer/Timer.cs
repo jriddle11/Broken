@@ -5,6 +5,9 @@ namespace Broken.Common.GameTimer
 {
     public class Timer
     {
+        public double TimeLeft => _setTime - _currentTime;
+        public double TimePercentLeft => _currentTime / _setTime;
+
         private double _setTime;
         private double _currentTime;
 
