@@ -48,7 +48,7 @@ namespace Broken.Common.ParticleSystem
             for (int i = 0; i < _particles.Count; i++)
             {
                 _particles[i].Update((float)gameTime.ElapsedGameTime.TotalSeconds);
-                if (!_particles[i].IsAlive())
+                if (!_particles[i].IsAlive)
                 {
                     _particles.RemoveAt(i);
                 }

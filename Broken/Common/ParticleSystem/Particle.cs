@@ -7,10 +7,11 @@ namespace Broken.Common.ParticleSystem
     {
         public Vector2 Position;
         public Vector2 Velocity;
-        public float LifeTime; // In seconds
-        public float Age; // How long the particle has existed
+        public float LifeTime;
+        public float Age;
         public float Scale;
         public Color Color;
+        public bool IsAlive => Age < LifeTime;
 
         public Particle(Vector2 position, Vector2 velocity, float lifeTime, float scale, Color color)
         {
@@ -26,11 +27,6 @@ namespace Broken.Common.ParticleSystem
         {
             Position += Velocity * deltaTime;
             Age += deltaTime;
-        }
-
-        public bool IsAlive()
-        {
-            return Age < LifeTime;
         }
     }
 

@@ -20,10 +20,10 @@ namespace Broken
 
         protected override void Initialize()
         {
-            _graphics.HardwareModeSwitch = false; // Borderless window instead of exclusive fullscreen
-            _graphics.PreferredBackBufferWidth = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width;
-            _graphics.PreferredBackBufferHeight = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height;
-            //Window.IsBorderless = true;
+            _graphics.HardwareModeSwitch = false;
+            _graphics.PreferredBackBufferWidth = 1920;
+            _graphics.PreferredBackBufferHeight = 1080;
+            Window.IsBorderless = true;
             _graphics.ApplyChanges();
 
             _mainMenu = new MainMenuController(_graphics);

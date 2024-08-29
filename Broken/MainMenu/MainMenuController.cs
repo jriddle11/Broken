@@ -154,7 +154,8 @@ namespace Broken
             float timeLeft = (float)_menuInTimer.TimePercentLeft;
             spriteBatch.Draw(_mainMenuBg, Vector2.Zero, null, Color.White * timeLeft, 0f, Vector2.Zero, bgScale, SpriteEffects.None, 0f);
             foreach (var obj in _staticGameObjects) obj.Draw(spriteBatch, timeLeft);
-            foreach(var button in _menuButtons) button.Draw(spriteBatch, timeLeft);
+            if (_openingSequenceIsActive) return;
+            foreach (var button in _menuButtons) button.Draw(spriteBatch, timeLeft);
         }
 
         private void ClearButtonHighlights()
