@@ -5,6 +5,9 @@ using System.Collections.Generic;
 
 namespace Broken
 {
+    /// <summary>
+    /// Main menu controller class
+    /// </summary>
     public class MainMenuController
     {
         public int HighlightedOption = 0;
@@ -14,8 +17,8 @@ namespace Broken
         Texture2D _titleCard;
         MenuText[] _menuButtons;
         List<IGameObject> _staticGameObjects = new();
-        float _titleShownTime = 1f; //4f
-        float _menuFadeInTime = 1f; //3f
+        float _titleShownTime = 2f; //4f
+        float _menuFadeInTime = 2f; //3f
         Timer _titleOutTimer;
         Timer _menuInTimer;
         bool _openingSequenceIsActive = true;

@@ -41,8 +41,8 @@ namespace Broken.Scripts.MainGame
 
         public void Draw(SpriteBatch spriteBatch, float opacity = 1)
         {
-            spriteBatch.Draw(_roomBackground, Vector2.Zero, null, Color.LightBlue, 0f, Vector2.Zero, 1f, SpriteEffects.None, 1f);
-            spriteBatch.Draw(_roomForeground, Vector2.Zero, null, Color.LightBlue, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0);
+            spriteBatch.Draw(_roomBackground, Vector2.Zero, null, Color.LightSteelBlue, 0f, Vector2.Zero, 1f, SpriteEffects.None, 1f);
+            spriteBatch.Draw(_roomForeground, Vector2.Zero, null, Color.LightSteelBlue, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0);
         }
     }
 }
