@@ -1,33 +1,35 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using Broken.Scripts.Common;
+using Broken.Scripts.MainGame;
 
 namespace Broken
 {
     public class BrokenGame : Game
     {
-        private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
         private MainMenuController _mainMenu;
         private GameController _gameController;
 
         public BrokenGame()
         {
-            _graphics = new GraphicsDeviceManager(this);
+            OutputManager.GraphicsDeviceManager = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
         }
 
         protected override void Initialize()
         {
-            _graphics.HardwareModeSwitch = false;
-            _graphics.PreferredBackBufferWidth = 1920;
-            _graphics.PreferredBackBufferHeight = 1080;
+            OutputManager.GraphicsDeviceManager.HardwareModeSwitch = false;
+            OutputManager.GraphicsDeviceManager.PreferredBackBufferWidth = 1920;
+            OutputManager.GraphicsDeviceManager.PreferredBackBufferHeight = 1080;
             Window.IsBorderless = true;
-            _graphics.ApplyChanges();
+            OutputManager.GraphicsDeviceManager.ApplyChanges();
+            OutputManager.Camera = new Camera();
 
-            _mainMenu = new MainMenuController(_graphics);
-            _gameController = new GameController(_graphics);
+            _mainMenu = new MainMenuController();
+            _gameController = new GameController();
 
             base.Initialize();
         }
@@ -45,6 +47,7 @@ namespace Broken
             InputManager.Update(this);
 
             _mainMenu.Update(this, gameTime);
+            _gameController.Update(gameTime);
 
             base.Update(gameTime);
         }
@@ -52,8 +55,9 @@ namespace Broken
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(new Color(19,19,19));
+            OutputManager.Camera.Boundaries = _gameController.CurrentRoomSize;
 
-            _spriteBatch.Begin();
+            _spriteBatch.Begin(SpriteSortMode.BackToFront, transformMatrix: OutputManager.Camera.Transform);
             _mainMenu.Draw(_spriteBatch);
             _gameController.Draw(_spriteBatch);
             _spriteBatch.End();
