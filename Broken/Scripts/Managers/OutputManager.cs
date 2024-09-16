@@ -13,5 +13,14 @@ namespace Broken
         public static GraphicsDeviceManager GraphicsDeviceManager;
 
         public static Camera Camera;
+
+        public static void Initialize(Game game)
+        {
+            GraphicsDeviceManager.PreferredBackBufferWidth = 1920;
+            GraphicsDeviceManager.PreferredBackBufferHeight = 1080;
+            game.Window.IsBorderless = true;
+            GraphicsDeviceManager.ApplyChanges();
+            Camera = new Camera();
+        }
     }
 }

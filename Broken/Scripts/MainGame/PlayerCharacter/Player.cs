@@ -36,11 +36,17 @@ namespace Broken.Scripts.MainGame
         Texture2D _runSpriteSheet;
         Texture2D _idleSpriteSheet;
 
+        Texture2D _pixel;
+        Color _pixColor = Color.White * .5f;
+
         public void LoadContent(Game game)
         {
+            _pixel = new Texture2D(OutputManager.GraphicsDeviceManager.GraphicsDevice, 1, 1);
+            _pixel.SetData(new[] { Color.White });
+
             _runSpriteSheet = game.Content.Load<Texture2D>("My Assets/Player/PlayerRunning");
             _idleSpriteSheet = game.Content.Load<Texture2D>("My Assets/Player/PlayerIdle");
-            _floorCollider = new BoundingRectangle(Vector2.Zero, 40, 40);
+            _floorCollider = new BoundingRectangle(Vector2.Zero, 60, 60);
             UpdateFloorCollider();
         }
 
@@ -80,6 +86,8 @@ namespace Broken.Scripts.MainGame
                 spriteBatch.Draw(_idleSpriteSheet, Position, sourceRectangle, Color.White * opacity, 0f, Vector2.Zero, _scale, animationIsFlipped ? SpriteEffects.FlipHorizontally : SpriteEffects.None, 0.5f);
 
             }
+
+            //spriteBatch.Draw(_pixel, new Rectangle((int)_floorCollider.X, (int)_floorCollider.Y, (int)_floorCollider.Width, (int)_floorCollider.Height), _pixColor);
         }
 
         public void Update(GameTime gameTime, List<BoundingRectangle> rectCols = null)
@@ -174,21 +182,19 @@ namespace Broken.Scripts.MainGame
             {
                 foreach (BoundingRectangle r in rectCols)
                 {
-                    if (_floorCollider.CollidesWith(r))
+                    while (_floorCollider.CollidesWith(r))
                     {
-                        // Check for overlaps
-                        float overlapX = Math.Max(0, Math.Max(Position.X + 110 - r.X, r.X + r.Width - (Position.X + 110)));
-                        float overlapY = Math.Max(0, Math.Max(Position.Y + 170 - r.Y, r.Y + r.Height - (Position.Y + 170)));
+                        float overlapX = Math.Min(_floorCollider.Right - r.Left, r.Right - _floorCollider.Left);
+                        float overlapY = Math.Min(_floorCollider.Bottom - r.Top, r.Bottom - _floorCollider.Top);
 
-                        if (overlapX < overlapY)
+                        if (Math.Abs(overlapX) < Math.Abs(overlapY))
                         {
-                            Position = new Vector2(Position.X - Velocity.X, Position.Y);
+                            Position = new Vector2(Position.X - Velocity.X, Position.Y - (Velocity.Y * .1f));
                         }
                         else
                         {
-                            Position = new Vector2(Position.X, Position.Y - Velocity.Y);
+                            Position = new Vector2(Position.X - (Velocity.X *.1f), Position.Y - Velocity.Y);
                         }
-
                         UpdateFloorCollider();
                     }
                 }
@@ -199,6 +205,11 @@ namespace Broken.Scripts.MainGame
         {
             _floorCollider.X = Position.X + 110;
             _floorCollider.Y = Position.Y + 170;
+        }
+
+        public BoundingRectangle GetFloorCollider()
+        {
+            return _floorCollider;
         }
     }
 

@@ -10,12 +10,52 @@ namespace Broken.Scripts.MainGame
     /// </summary>
     public class GameController
     {
-        public Vector2 CurrentRoomSize = new Vector2(1000, 1000);
+        private static GameController _instance;
+
+        public static GameController Instance
+        {
+            get
+            {
+                if (_instance == null)
+                {
+                    _instance = new GameController();
+                }
+                return _instance;
+            }
+        }
+
+        public Vector2 CurrentRoomSize
+        {
+            get
+            {
+                return GetCurrentRoomSize();
+            }
+            set
+            {
+                CurrentRoomSize = value;
+            }
+        }
+        public Vector2 PlayerPosition
+        {
+            get
+            {
+                return GetPlayerPosition();
+            }
+        }
+        public Player GetPlayer
+        {
+            get
+            {
+                return _player;
+            }
+        }
+
+
         bool _isActive;
         Player _player;
         Room _currentRoom;
 
-        public GameController()
+        private GameController()
         {
             _player = new Player();
             _player.Position = new Vector2(1900, 600);
@@ -25,13 +65,14 @@ namespace Broken.Scripts.MainGame
         {
             _player.LoadContent(game);
             _currentRoom = new Room(game, 0);
-            CurrentRoomSize = _currentRoom.Bounds;
             OutputManager.Camera.Boundaries = CurrentRoomSize;
         }
 
         public void StartGame()
         {
             _isActive = true;
+            OutputManager.Camera.ForceZoom(.7f);
+            OutputManager.Camera.CanZoom = true;
         }
 
         public void Update(GameTime gameTime)
@@ -39,6 +80,7 @@ namespace Broken.Scripts.MainGame
             if (!_isActive) return;
             _player.Update(gameTime, _currentRoom.WallColliders);
             OutputManager.Camera.Follow(_player);
+            _currentRoom.Update(gameTime);
         }
 
         public void Draw(SpriteBatch spriteBatch)
@@ -46,6 +88,23 @@ namespace Broken.Scripts.MainGame
             if(!_isActive) return;
             _player.Draw(spriteBatch);
             _currentRoom.Draw(spriteBatch);
+        }
+
+        private Vector2 GetPlayerPosition()
+        {
+            return _player.Position;
+        }
+        
+        private Vector2 GetCurrentRoomSize()
+        {
+            if(_currentRoom == null)
+            {
+                return new Vector2(1900, 600);
+            }
+            else
+            {
+                return _currentRoom.Bounds;
+            }
         }
     }
 }

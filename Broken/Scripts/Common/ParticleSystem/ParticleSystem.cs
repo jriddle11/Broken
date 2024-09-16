@@ -23,8 +23,9 @@ namespace Broken.Scripts.Common
         private int _maxParticles;
         private Timer _particleTimer;
         private Random _random;
+        float _layer;
 
-        public ParticleSystem(Vector2 position, string texture, Color color, float opacity = 1f, float speed = 80f, float scale = 1f, double pace = 0.4, float lifeTime = 5f, int maxParticles = 10)
+        public ParticleSystem(Vector2 position, string texture, Color color, float opacity = 1f, float speed = 80f, float scale = 1f, double pace = 0.4, float lifeTime = 5f, int maxParticles = 10, float layer = .99f)
         {
             Position = position;
             _textureName = texture;
@@ -37,6 +38,7 @@ namespace Broken.Scripts.Common
             _maxParticles = maxParticles;
             _particles = new List<Particle>();
             _random = new Random();
+            _layer = layer;
         }
 
         public void LoadContent(Game game)
@@ -84,7 +86,7 @@ namespace Broken.Scripts.Common
             {
                 float remainingLife = 1f - (particle.Age / particle.LifeTime);
                 Color color = particle.Color * remainingLife * _opacity * opacity;
-                spriteBatch.Draw(_texture, particle.Position, null, color, 0f, new Vector2(_texture.Width / 2, _texture.Height / 2), particle.Scale, SpriteEffects.None, .99f);
+                spriteBatch.Draw(_texture, particle.Position, null, color, 0f, new Vector2(_texture.Width / 2, _texture.Height / 2), particle.Scale, SpriteEffects.None, _layer);
             }
         }
     }

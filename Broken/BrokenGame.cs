@@ -21,15 +21,10 @@ namespace Broken
 
         protected override void Initialize()
         {
-            OutputManager.GraphicsDeviceManager.HardwareModeSwitch = false;
-            OutputManager.GraphicsDeviceManager.PreferredBackBufferWidth = 1920;
-            OutputManager.GraphicsDeviceManager.PreferredBackBufferHeight = 1080;
-            Window.IsBorderless = true;
-            OutputManager.GraphicsDeviceManager.ApplyChanges();
-            OutputManager.Camera = new Camera();
+            OutputManager.Initialize(this);
 
             _mainMenu = new MainMenuController();
-            _gameController = new GameController();
+            _gameController = GameController.Instance;
 
             base.Initialize();
         }

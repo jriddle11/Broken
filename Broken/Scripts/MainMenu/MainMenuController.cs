@@ -17,8 +17,8 @@ namespace Broken
         Texture2D _titleCard;
         MenuText[] _menuButtons;
         List<IGameObject> _staticGameObjects = new();
-        float _titleShownTime = 2f; //4f
-        float _menuFadeInTime = 2f; //3f
+        float _titleShownTime = 1f; //2f
+        float _menuFadeInTime = 1f; //3f
         Timer _titleOutTimer;
         Timer _menuInTimer;
         bool _openingSequenceIsActive = true;
@@ -30,8 +30,8 @@ namespace Broken
             Color fogColor = new Color(49, 97, 94);
             int screenWidth = OutputManager.ScreenWidth;
             int screenHeight = OutputManager.ScreenHeight;
-            var weaponPos = new Vector2( screenWidth - 810, screenHeight / 2 - 384);
-            var fogPos = new Vector2(screenWidth - (screenWidth / 6) - 100, screenHeight / 2);
+            var weaponPos = new Vector2( 1320, screenHeight / 2 - 450);
+            var fogPos = new Vector2(1480, screenHeight / 2);
 
             _menuButtons = new MenuText[]
             {

@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Broken.Scripts.Interfaces;
 using Broken.Scripts.Models;
+using System.Collections.Generic;
 
 namespace Broken.Scripts.Common
 {
@@ -30,6 +31,14 @@ namespace Broken.Scripts.Common
             Height = entity.Height;
         }
 
+        public BoundingRectangle(Rectangle rect)
+        {
+            X = rect.X;
+            Y = rect.Y;
+            Width= rect.Width;
+            Height= rect.Height;
+        }
+
         public BoundingRectangle(float x, float y, float width, float height)
         {
             X = x;
@@ -44,6 +53,18 @@ namespace Broken.Scripts.Common
             Y = position.Y;
             Width = width;
             Height = height;
+        }
+
+        public static List<RectangleEntity> ConvertToEntities(List<BoundingRectangle> list)
+        {
+            List<RectangleEntity> entities = new();
+            foreach(BoundingRectangle rect in list) { entities.Add(ConvertToEntity(rect)); }
+            return entities;
+        }
+
+        public static RectangleEntity ConvertToEntity(BoundingRectangle rect)
+        {
+            return new RectangleEntity() { X = rect.X, Y = rect.Y, Height = rect.Height, Width = rect.Width };
         }
 
         public bool CollidesWith(BoundingRectangle other)

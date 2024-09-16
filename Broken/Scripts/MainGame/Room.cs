@@ -18,6 +18,11 @@ namespace Broken.Scripts.MainGame
         RoomConfig _roomConfig;
         Texture2D _roomBackground;
         Texture2D _roomForeground;
+        List<Texture2D> _roomOverlaps = new();
+        List<IGameObject> _staticObjects = new();
+
+        Texture2D _pixel;
+        Color _pixColor = Color.White * .1f;
 
         public Room(Game game, int roomID)
         {
@@ -27,22 +32,34 @@ namespace Broken.Scripts.MainGame
 
         public void LoadContent(Game game)
         {
+            _pixel = new Texture2D(OutputManager.GraphicsDeviceManager.GraphicsDevice, 1, 1);
+            _pixel.SetData(new[] { Color.White });
+
             _roomConfig = FileManager.GetRoomConfigurationById(_roomConfigID);
             _roomBackground = game.Content.Load<Texture2D>(_roomConfig.Background);
             _roomForeground = game.Content.Load<Texture2D>(_roomConfig.Foreground);
-            foreach(var rect in _roomConfig.WallColliders) { WallColliders.Add(new BoundingRectangle(rect)); }
+            foreach (var overlap in _roomConfig.Overlaps) { _roomOverlaps.Add(game.Content.Load<Texture2D>(overlap)); }
+            foreach (var rect in _roomConfig.WallColliders) { WallColliders.Add(new BoundingRectangle(rect)); }
+            foreach(var loc in _roomConfig.TorchLocations) { _staticObjects.Add(new TorchFire(loc.ConvertToVector(), game)); }
             Bounds = new Vector2(_roomBackground.Width, _roomBackground.Height);
+
         }
 
         public void Update(GameTime gameTime)
         {
-            return;
+            foreach(var obj in _staticObjects){
+                obj.Update(gameTime);
+            }
         }
 
         public void Draw(SpriteBatch spriteBatch, float opacity = 1)
         {
-            spriteBatch.Draw(_roomBackground, Vector2.Zero, null, Color.LightSteelBlue, 0f, Vector2.Zero, 1f, SpriteEffects.None, 1f);
-            spriteBatch.Draw(_roomForeground, Vector2.Zero, null, Color.LightSteelBlue, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0);
+            spriteBatch.Draw(_roomBackground, Vector2.Zero, null, Color.LightBlue, 0f, Vector2.Zero, 1f, SpriteEffects.None, 1f);
+            foreach(var overlap in _roomOverlaps)spriteBatch.Draw(overlap, Vector2.Zero, null, Color.LightBlue, 0f, Vector2.Zero, 1f, SpriteEffects.None, .1f);
+            spriteBatch.Draw(_roomForeground, Vector2.Zero, null, Color.LightBlue * .6f, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0);
+            foreach(var obj in _staticObjects) { obj.Draw(spriteBatch); }
+
+            //spriteBatch.Draw(_pixel, new Rectangle(0, 0, 350, 1280), _pixColor);
         }
     }
 }
