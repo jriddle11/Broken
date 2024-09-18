@@ -35,8 +35,8 @@ namespace Broken.Scripts.Common
         {
             AdjustZoom();
 
-            _position = new Vector2(player.Position.X + 128 - (_viewport.Width / 2) / _zoom,
-                                    player.Position.Y + 128 - (_viewport.Height / 2) / _zoom);
+            _position = new Vector2(player.Position.X + 232.375f - (_viewport.Width / 2) / _zoom,
+                                    player.Position.Y + 232.375f - (_viewport.Height / 2) / _zoom);
 
             _position.X = MathHelper.Clamp(_position.X, 0, Boundaries.X - (_viewport.Width / _zoom));
             _position.Y = MathHelper.Clamp(_position.Y, 0, Boundaries.Y - (_viewport.Height / _zoom));

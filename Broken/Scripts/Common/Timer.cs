@@ -10,6 +10,7 @@ namespace Broken.Scripts.Common
     {
         public double TimeLeft => _setTime - _currentTime;
         public double TimePercentLeft => _currentTime / _setTime;
+        public bool TimesUp => _currentTime > _setTime;
 
         private double _setTime;
         private double _currentTime;
@@ -22,15 +23,13 @@ namespace Broken.Scripts.Common
 
         public bool TimeIsUp(GameTime gametime)
         {
+            Update(gametime);
+            return TimesUp;
+        }
+
+        public void Update(GameTime gametime)
+        {
             _currentTime += gametime.ElapsedGameTime.TotalSeconds;
-            if(_currentTime > _setTime)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
         }
 
         public void Reset()

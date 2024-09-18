@@ -14,6 +14,7 @@ namespace Broken.Scripts.MainGame
 
         const int FLAME_WIDTH = 84;
         const int FLAME_HEIGHT = 147;
+        const int DETECTION_RANGE = 350;
 
         ParticleSystem _torchLight;
         Texture2D _fireTexture;
@@ -28,7 +29,7 @@ namespace Broken.Scripts.MainGame
             LoadContent(game);
             _torchLight = new ParticleSystem(Position + new Vector2(15, 50), "My Assets/Menu/Fog", Color.Goldenrod, .03f, 10, .7f, .8f, 5f, 5, .01f);
             _torchLight.LoadContent(game);
-            _detectionCollider = new BoundingCircle(Position + new Vector2(FLAME_WIDTH, FLAME_HEIGHT), 400);
+            _detectionCollider = new BoundingCircle(Position + new Vector2(FLAME_WIDTH, FLAME_HEIGHT), DETECTION_RANGE);
         }
 
         public void Draw(SpriteBatch spriteBatch, float opacity = 1)
