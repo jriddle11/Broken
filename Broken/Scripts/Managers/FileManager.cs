@@ -12,7 +12,7 @@ namespace Broken
     /// </summary>
     public static class FileManager
     {
-        const string ROOM_CONFIGS_FILE_PATH = "C:/Users/Josh/source/repos/Broken/Broken/Data/Configurations/RoomConfigs.json";
+        static string ROOM_CONFIGS_FILE_PATH  = "Content/Data/Configurations/RoomConfigs.json";
 
         public static void AddToRoomConfigurations(RoomConfig room)
         {

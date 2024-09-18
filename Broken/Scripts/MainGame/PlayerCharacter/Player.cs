@@ -141,7 +141,7 @@ namespace Broken.Scripts.MainGame
             spriteBatch.Draw(sprite, Position, sourceRectangle, Color.White, 0f, Vector2.Zero, _scale, animationIsFlipped ? SpriteEffects.FlipHorizontally : SpriteEffects.None, 0.5f);
             if ((_actionState == ActionState.Swinging || _actionState == ActionState.Slashing || _actionState == ActionState.Slamming) && !attackEnding)
             {
-                DrawSwordTrail(spriteBatch);
+                //DrawSwordTrail(spriteBatch);
             }
 
             //spriteBatch.Draw(_pixel, new Rectangle((int)_floorCollider.X, (int)_floorCollider.Y, (int)_floorCollider.Width, (int)_floorCollider.Height), _pixColor);
