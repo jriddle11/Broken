@@ -13,6 +13,9 @@
 
 #---------------------------------- Content ---------------------------------#
 
+#begin Data/Configurations/RoomConfigs.json
+/copy:Data/Configurations/RoomConfigs.json
+
 #begin External Assets/TorchFire/TorchFireSheet.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -115,6 +118,18 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:My Assets/Menu/Fog.png
+
+#begin My Assets/Menu/Instructions.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:My Assets/Menu/Instructions.png
 
 #begin My Assets/Menu/MainMenuBg.png
 /importer:TextureImporter
@@ -259,4 +274,52 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:My Assets/Player/PlayerSwordTrail.png
+
+#begin My Assets/Slime/SlimeCharge.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:My Assets/Slime/SlimeCharge.png
+
+#begin My Assets/Slime/SlimeIdle.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:My Assets/Slime/SlimeIdle.png
+
+#begin My Assets/Slime/SlimeJump.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:My Assets/Slime/SlimeJump.png
+
+#begin My Assets/Slime/SlimeLand.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:My Assets/Slime/SlimeLand.png
 

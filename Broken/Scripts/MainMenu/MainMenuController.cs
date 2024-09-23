@@ -17,12 +17,14 @@ namespace Broken
         Texture2D _titleCard;
         MenuText[] _menuButtons;
         List<IGameObject> _staticGameObjects = new();
-        float _titleShownTime = 2f; //2f
-        float _menuFadeInTime = 2f; //3f
+        float _titleShownTime = 1f; //2f
+        float _menuFadeInTime = 1f; //2f
         Timer _titleOutTimer;
         Timer _menuInTimer;
         bool _openingSequenceIsActive = true;
         bool _titleCardIsActive = true;
+
+        Texture2D _instructions;
 
         public MainMenuController()
         {
@@ -50,13 +52,14 @@ namespace Broken
         {
             _mainMenuBg = game.Content.Load<Texture2D>("My Assets/Menu/MainMenuBg");
             _titleCard = game.Content.Load<Texture2D>("My Assets/Menu/Title");
+            _instructions = game.Content.Load<Texture2D>("My Assets/Menu/Instructions");
             foreach (var button in _menuButtons) button.LoadContent(game);
             foreach(var obj in _staticGameObjects) obj.LoadContent(game);
         }
 
         public void Update(BrokenGame game, GameTime gameTime)
         {
-            if(!MenuIsActive) return;
+            if (!MenuIsActive) return;
             if (_openingSequenceIsActive)
             {
                 if (_titleCardIsActive && _titleOutTimer.TimeIsUp(gameTime))
@@ -64,7 +67,7 @@ namespace Broken
                     _menuInTimer = new Timer(_menuFadeInTime);
                     _titleCardIsActive = false;
                 }
-                if(_menuInTimer != null)
+                if (_menuInTimer != null)
                 {
                     if (_menuInTimer.TimeIsUp(gameTime))
                     {
@@ -83,13 +86,13 @@ namespace Broken
             if (InputManager.PressedUp)
             {
                 HighlightedOption -= 1;
-                if(HighlightedOption < 0) HighlightedOption = 3;
+                if (HighlightedOption < 0) HighlightedOption = 3;
             }
 
             //Mouse
             bool isHovering = false;
             ClearButtonHighlights();
-            for(int i = 0; i < _menuButtons.Length; ++i)
+            for (int i = 0; i < _menuButtons.Length; ++i)
             {
                 if (_menuButtons[i].IsMouseHovering(gameTime))
                 {
@@ -114,6 +117,12 @@ namespace Broken
                 HandleSelection(game);
             }
 
+            if (InputManager.PressedSpace && _titleCardIsActive == false)
+            {
+                HandleSelection(game);
+            }
+
+
             #endregion
         }
 
@@ -123,7 +132,7 @@ namespace Broken
             {
                 case 0:
                     //Selected "START"
-                    game.HandleStartGame();
+                    //game.HandleStartGame();
                     break;
                 case 1:
                     //Selected "SETTINGS"
@@ -157,6 +166,7 @@ namespace Broken
             foreach (var obj in _staticGameObjects) obj.Draw(spriteBatch, timeLeft);
             if (_openingSequenceIsActive) return;
             foreach (var button in _menuButtons) button.Draw(spriteBatch, timeLeft);
+            spriteBatch.Draw(_instructions, new Vector2(0, 600), Color.White);
         }
 
         private void ClearButtonHighlights()

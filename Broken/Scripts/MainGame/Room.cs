@@ -12,7 +12,8 @@ namespace Broken.Scripts.MainGame
     public class Room : IGameObject
     {
         public Vector2 Bounds = new Vector2(1000, 1000);
-        public List<BoundingRectangle> WallColliders { get; private set; } = new List<BoundingRectangle>();
+        public List<BoundingRectangle> RectangleColliders { get; private set; } = new List<BoundingRectangle>();
+        public List<Character> Entities = new();
 
         int _roomConfigID;
         RoomConfig _roomConfig;
@@ -39,7 +40,7 @@ namespace Broken.Scripts.MainGame
             _roomBackground = game.Content.Load<Texture2D>(_roomConfig.Background);
             _roomForeground = game.Content.Load<Texture2D>(_roomConfig.Foreground);
             foreach (var overlap in _roomConfig.Overlaps) { _roomOverlaps.Add(game.Content.Load<Texture2D>(overlap)); }
-            foreach (var rect in _roomConfig.WallColliders) { WallColliders.Add(new BoundingRectangle(rect)); }
+            foreach (var rect in _roomConfig.WallColliders) { RectangleColliders.Add(new BoundingRectangle(rect)); }
             foreach(var loc in _roomConfig.TorchLocations) { _staticObjects.Add(new TorchFire(loc.ConvertToVector(), game)); }
             Bounds = new Vector2(_roomBackground.Width, _roomBackground.Height);
 

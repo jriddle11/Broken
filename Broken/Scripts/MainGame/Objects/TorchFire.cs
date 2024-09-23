@@ -66,7 +66,7 @@ namespace Broken.Scripts.MainGame
 
         private bool PlayerIsInRange()
         {
-            return GameController.Instance.GetPlayer.GetFloorCollider().CollidesWith(_detectionCollider);
+            return GameController.Instance.GetPlayer.FloorCollider.CollidesWith(_detectionCollider);
         }
 
         private void UpdateAnimationFrame()

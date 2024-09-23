@@ -22,6 +22,7 @@ namespace Broken
         protected override void Initialize()
         {
             OutputManager.Initialize(this);
+            DevManager.Initialize();
 
             _mainMenu = new MainMenuController();
             _gameController = GameController.Instance;

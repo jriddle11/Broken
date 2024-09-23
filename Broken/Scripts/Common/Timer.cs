@@ -36,5 +36,10 @@ namespace Broken.Scripts.Common
         {
             _currentTime = 0;
         }
+
+        public void ChangeSetTime(float time)
+        {
+            _setTime = time;
+        }
     }
 }

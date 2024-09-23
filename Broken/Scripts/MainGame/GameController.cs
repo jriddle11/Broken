@@ -2,6 +2,8 @@
 using Microsoft.Xna.Framework.Graphics;
 using Broken.Scripts.MainGame;
 using Broken.Scripts.Common;
+using System.Linq;
+using System.Collections.Generic;
 
 namespace Broken.Scripts.MainGame
 {
@@ -23,7 +25,14 @@ namespace Broken.Scripts.MainGame
                 return _instance;
             }
         }
-
+        public List<Character> CurrentActiveEntities
+        {
+            get
+            {
+                if(_currentRoom == null) return null;
+                return _currentRoom.Entities;
+            }
+        }
         public Vector2 CurrentRoomSize
         {
             get
@@ -50,21 +59,22 @@ namespace Broken.Scripts.MainGame
             }
         }
 
-
         bool _isActive;
         Player _player;
         Room _currentRoom;
-
-        private GameController()
-        {
-            _player = new Player();
-            _player.Position = new Vector2(1900, 600);
-        }
+        Slime _slime;
 
         public void LoadContent(Game game)
         {
-            _player.LoadContent(game);
             _currentRoom = new Room(game, 0);
+            _player = new Player();
+            _player.Position = new Vector2(1900, 600);
+            _slime = new Slime();
+            _slime.Position = new Vector2(1900, 1500);
+            _player.LoadContent(game);
+            _slime.LoadContent(game);
+            _currentRoom.Entities.Add(_player);
+            _currentRoom.Entities.Add(_slime);
             OutputManager.Camera.Boundaries = CurrentRoomSize;
         }
 
@@ -78,7 +88,8 @@ namespace Broken.Scripts.MainGame
         public void Update(GameTime gameTime)
         {
             if (!_isActive) return;
-            _player.Update(gameTime, _currentRoom.WallColliders);
+            _player.Update(gameTime, _currentRoom.RectangleColliders);
+            _slime.Update(gameTime, _currentRoom.RectangleColliders);
             OutputManager.Camera.Follow(_player);
             _currentRoom.Update(gameTime);
         }
@@ -88,6 +99,7 @@ namespace Broken.Scripts.MainGame
             if(!_isActive) return;
             _player.Draw(spriteBatch);
             _currentRoom.Draw(spriteBatch);
+            _slime.Draw(spriteBatch);
         }
 
         private Vector2 GetPlayerPosition()

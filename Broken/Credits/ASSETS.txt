@@ -3,5 +3,6 @@ Used as a base model for: (Content/My Assets/Player) - Low Poly Adventurer anima
 Environment 3D assets used in the creation of: (Content/My Assets/Environment) - Free Modular Low Poly Dungeon Pack created by RgsDev, released on sketchfab (https://sketchfab.com/3d-models/free-modular-low-poly-dungeon-pack-31f2e88017574702bb2c1c1e286dc747) under the CC0 License
 Content/External Assets/TorchFire - Bright Fire Flame Animation Set by macrovector on Freepik https://www.freepik.com/free-vector/bright-fire-flame-animation-set_9586183.htm#query=fire%20sprite&position=4&from_view=keyword&track=ais_hybrid&uuid=bf13f0a0-5684-48c6-a3a9-7fea88eeadf7 under attribution required
 
-Todo:
+TODO:
 Mixamo
+Slime
