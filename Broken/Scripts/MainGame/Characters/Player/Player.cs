@@ -108,6 +108,7 @@ namespace Broken.Scripts.MainGame
 
             bool animationFlipped = CheckIfAnimationShouldFlip(out int animationDirection);
 
+
             Rectangle sourceRectangle = new Rectangle(
                 CurrentAnimationFrame * TEXTURE_WIDTH,
                 animationDirection * TEXTURE_HEIGHT,

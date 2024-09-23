@@ -25,6 +25,7 @@ namespace Broken
         bool _titleCardIsActive = true;
 
         Texture2D _instructions;
+        Texture2D _clickStart;
 
         public MainMenuController()
         {
@@ -53,6 +54,7 @@ namespace Broken
             _mainMenuBg = game.Content.Load<Texture2D>("My Assets/Menu/MainMenuBg");
             _titleCard = game.Content.Load<Texture2D>("My Assets/Menu/Title");
             _instructions = game.Content.Load<Texture2D>("My Assets/Menu/Instructions");
+            _clickStart = game.Content.Load<Texture2D>("My Assets/Menu/ClickStart");
             foreach (var button in _menuButtons) button.LoadContent(game);
             foreach(var obj in _staticGameObjects) obj.LoadContent(game);
         }
@@ -132,7 +134,7 @@ namespace Broken
             {
                 case 0:
                     //Selected "START"
-                    //game.HandleStartGame();
+                    game.HandleStartGame();
                     break;
                 case 1:
                     //Selected "SETTINGS"
@@ -167,6 +169,7 @@ namespace Broken
             if (_openingSequenceIsActive) return;
             foreach (var button in _menuButtons) button.Draw(spriteBatch, timeLeft);
             spriteBatch.Draw(_instructions, new Vector2(0, 600), Color.White);
+            spriteBatch.Draw(_clickStart, new Vector2(0, 300), Color.White);
         }
 
         private void ClearButtonHighlights()

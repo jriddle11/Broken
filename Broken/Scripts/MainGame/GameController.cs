@@ -64,17 +64,20 @@ namespace Broken.Scripts.MainGame
         Room _currentRoom;
         Slime _slime;
 
+        Texture2D _instructions;
+
         public void LoadContent(Game game)
         {
             _currentRoom = new Room(game, 0);
             _player = new Player();
             _player.Position = new Vector2(1900, 600);
-            _slime = new Slime();
-            _slime.Position = new Vector2(1900, 1500);
+            _instructions = game.Content.Load<Texture2D>("My Assets/Menu/CharacterInstructions");
+            //_slime = new Slime();
+            //_slime.Position = new Vector2(1900, 1500);
             _player.LoadContent(game);
-            _slime.LoadContent(game);
+            //_slime.LoadContent(game);
             _currentRoom.Entities.Add(_player);
-            _currentRoom.Entities.Add(_slime);
+            //_currentRoom.Entities.Add(_slime);
             OutputManager.Camera.Boundaries = CurrentRoomSize;
         }
 
@@ -89,7 +92,7 @@ namespace Broken.Scripts.MainGame
         {
             if (!_isActive) return;
             _player.Update(gameTime, _currentRoom.RectangleColliders);
-            _slime.Update(gameTime, _currentRoom.RectangleColliders);
+            //_slime.Update(gameTime, _currentRoom.RectangleColliders);
             OutputManager.Camera.Follow(_player);
             _currentRoom.Update(gameTime);
         }
@@ -99,7 +102,8 @@ namespace Broken.Scripts.MainGame
             if(!_isActive) return;
             _player.Draw(spriteBatch);
             _currentRoom.Draw(spriteBatch);
-            _slime.Draw(spriteBatch);
+            //_slime.Draw(spriteBatch);
+            spriteBatch.Draw(_instructions, _player.Position - new Vector2(600, 0), Color.White);
         }
 
         private Vector2 GetPlayerPosition()

@@ -43,6 +43,10 @@ namespace Broken.Scripts.MainGame
             foreach (var rect in _roomConfig.WallColliders) { RectangleColliders.Add(new BoundingRectangle(rect)); }
             foreach(var loc in _roomConfig.TorchLocations) { _staticObjects.Add(new TorchFire(loc.ConvertToVector(), game)); }
             Bounds = new Vector2(_roomBackground.Width, _roomBackground.Height);
+            RectangleColliders.Add(new BoundingRectangle(0,0, _roomBackground.Width, 200)); //top
+            RectangleColliders.Add(new BoundingRectangle(0, _roomBackground.Height, _roomBackground.Width, 200)); //bottom
+            RectangleColliders.Add(new BoundingRectangle(0, 0, 200, _roomBackground.Height)); //left
+            RectangleColliders.Add(new BoundingRectangle(_roomBackground.Width - 200, 0, 200, _roomBackground.Height)); //right
 
         }
 
