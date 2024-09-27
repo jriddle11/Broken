@@ -1,8 +1,16 @@
 ﻿Content/External Assets/Jorvik Informal/Jorvik.ttf - Jorvik Informal font created by Andreas Höfeld from Fontgrube Media Design, released on 1001 Fonts (https://www.1001fonts.com/jorvik-informal-font.html) under the 1001Fonts general font usage terms
+Content/External Assets/TorchFire/TorchFireSheet - Bright Fire Flame Animation Set by macrovector on Freepik https://www.freepik.com/free-vector/bright-fire-flame-animation-set_9586183.htm#query=fire%20sprite&position=4&from_view=keyword&track=ais_hybrid&uuid=bf13f0a0-5684-48c6-a3a9-7fea88eeadf7 under attribution required
+Content/External Assets/TorchFire/fireCrackle Sound Effect by Pankaj Yadav from Pixabay https://pixabay.com/sound-effects//?utm_source=link-attribution&utm_medium=referral&utm_campaign=music&utm_content=179862 Pixabay license
+Content/External Assets/TorchFire/fireWoosh Sound Effect by floraphonic from Pixabay https://pixabay.com/sound-effects//?utm_source=link-attribution&utm_medium=referral&utm_campaign=music&utm_content=179862 Pixabay license
+Content/External Assets/Music/mainMenuTheme Music by Gioele Fazzeri from Pixabay https://pixabay.com//?utm_source=link-attribution&utm_medium=referral&utm_campaign=music&utm_content=121131 Pixabay license
+Content/External Assets/SoundEffects Sound Effect by Cyberwave Orchestra from Pixabay https://pixabay.com/sound-effects//?utm_source=link-attribution&utm_medium=referral&utm_campaign=music&utm_content=241824 Pixabay license
+
 Used as a base model for: (Content/My Assets/Player) - Low Poly Adventurer animated character holding sword Free low-poly 3D model created by MadTrollStudio, released on cgtrader (https://www.cgtrader.com/free-3d-models/character/fantasy-character/low-poly-adventurer) under the Royalty Free No Ai License
 Environment 3D assets used in the creation of: (Content/My Assets/Environment) - Free Modular Low Poly Dungeon Pack created by RgsDev, released on sketchfab (https://sketchfab.com/3d-models/free-modular-low-poly-dungeon-pack-31f2e88017574702bb2c1c1e286dc747) under the CC0 License
-Content/External Assets/TorchFire - Bright Fire Flame Animation Set by macrovector on Freepik https://www.freepik.com/free-vector/bright-fire-flame-animation-set_9586183.htm#query=fire%20sprite&position=4&from_view=keyword&track=ais_hybrid&uuid=bf13f0a0-5684-48c6-a3a9-7fea88eeadf7 under attribution required
+Used for most humanoid animations Mixamo https://www.mixamo.com/ Royalty free
+Used as a base model for: (Content/My Assets/Slime) - (Simple) Slime Creature created by BlaizeJ on sketchfab https://sketchfab.com/3d-models/simple-slime-creature-f176c00e63c24155b2c308b06cdb32d8 under CC Attribution license
+
+
+
 
 TODO:
-Mixamo
-Slime

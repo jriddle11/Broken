@@ -1,7 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace Broken.Scripts.Common
+namespace Broken.Scripts
 {
     /// <summary>
     /// Individual particle in the <see cref="ParticleSystem"/>

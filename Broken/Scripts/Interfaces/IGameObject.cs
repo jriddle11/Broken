@@ -1,7 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace Broken
+namespace Broken.Scripts
 {
     public interface IGameObject
     {

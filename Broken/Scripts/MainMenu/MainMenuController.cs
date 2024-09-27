@@ -1,6 +1,8 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Broken.Scripts.Common;
+using Microsoft.Xna.Framework.Audio;
+using Microsoft.Xna.Framework.Media;
+using Broken.Scripts;
 using System.Collections.Generic;
 
 namespace Broken
@@ -23,9 +25,7 @@ namespace Broken
         Timer _menuInTimer;
         bool _openingSequenceIsActive = true;
         bool _titleCardIsActive = true;
-
-        Texture2D _instructions;
-        Texture2D _clickStart;
+        Song _mainTheme;
 
         public MainMenuController()
         {
@@ -53,8 +53,7 @@ namespace Broken
         {
             _mainMenuBg = game.Content.Load<Texture2D>("My Assets/Menu/MainMenuBg");
             _titleCard = game.Content.Load<Texture2D>("My Assets/Menu/Title");
-            _instructions = game.Content.Load<Texture2D>("My Assets/Menu/Instructions");
-            _clickStart = game.Content.Load<Texture2D>("My Assets/Menu/ClickStart");
+            _mainTheme = game.Content.Load<Song>("External Assets/Music/mainMenuTheme");
             foreach (var button in _menuButtons) button.LoadContent(game);
             foreach(var obj in _staticGameObjects) obj.LoadContent(game);
         }
@@ -76,6 +75,12 @@ namespace Broken
                         _openingSequenceIsActive = false;
                     }
                 }
+            }
+
+            if (MediaPlayer.State == MediaState.Stopped)
+            {
+                MediaPlayer.IsRepeating = true; // Set to loop
+                MediaPlayer.Play(_mainTheme); // Play the song
             }
 
             foreach (var obj in _staticGameObjects) obj.Update(gameTime);
@@ -135,6 +140,7 @@ namespace Broken
                 case 0:
                     //Selected "START"
                     game.HandleStartGame();
+                    MediaPlayer.Stop();
                     break;
                 case 1:
                     //Selected "SETTINGS"
@@ -168,8 +174,6 @@ namespace Broken
             foreach (var obj in _staticGameObjects) obj.Draw(spriteBatch, timeLeft);
             if (_openingSequenceIsActive) return;
             foreach (var button in _menuButtons) button.Draw(spriteBatch, timeLeft);
-            spriteBatch.Draw(_instructions, new Vector2(0, 600), Color.White);
-            spriteBatch.Draw(_clickStart, new Vector2(0, 300), Color.White);
         }
 
         private void ClearButtonHighlights()

@@ -1,12 +1,12 @@
 ﻿using Microsoft.Xna.Framework;
-using Broken.Scripts.Interfaces;
+using Broken.Scripts;
 
-namespace Broken.Scripts.Common
+namespace Broken.Scripts
 {
     /// <summary>
     /// A struct representing circular bounds
     /// </summary>
-    public struct BoundingCircle : ICollider
+    public struct BoundingCircle
     {
         /// <summary>
         /// The center of the circle
@@ -40,11 +40,6 @@ namespace Broken.Scripts.Common
         }
 
         public bool CollidesWith(BoundingRectangle other)
-        {
-            return CollisionHelper.Collides(this, other);
-        }
-
-        public bool CollidesWith(ICollider other)
         {
             return CollisionHelper.Collides(this, other);
         }

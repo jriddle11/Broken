@@ -1,7 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using System;
-
+using Broken.Scripts;
 
 namespace Broken
 {
@@ -114,9 +114,5 @@ namespace Broken
 
             #endregion
         }
-    }
-    public enum Direction
-    {
-        Down, Right, Up, DRight, URight, Left, DLeft, ULeft
     }
 }

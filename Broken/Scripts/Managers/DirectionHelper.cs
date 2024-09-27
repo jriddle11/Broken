@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using System;
+using Broken.Scripts;
 
 
 namespace Broken
@@ -76,5 +77,120 @@ namespace Broken
                     return Direction.Down;
             }
         }
+
+        public static Direction GetDirectionCounterClockwise(Direction originalDirection)
+        {
+            switch (originalDirection)
+            {
+                case Direction.Left:
+                    return Direction.DLeft;
+                case Direction.DLeft:
+                    return Direction.Down;
+                case Direction.Down:
+                    return Direction.DRight;
+                case Direction.DRight:
+                    return Direction.Right;
+                case Direction.Right:
+                    return Direction.URight;
+                case Direction.URight:
+                    return Direction.Up;
+                case Direction.Up:
+                    return Direction.ULeft;
+                case Direction.ULeft:
+                    return Direction.Left;
+                default:
+                    return Direction.Down;
+            }
+        }
+
+        public static Direction GetDirectionClockwise(Direction originalDirection)
+        {
+            switch (originalDirection)
+            {
+                case Direction.Left:
+                    return Direction.ULeft;
+                case Direction.ULeft:
+                    return Direction.Up;
+                case Direction.Up:
+                    return Direction.URight;
+                case Direction.URight:
+                    return Direction.Right;
+                case Direction.Right:
+                    return Direction.DRight;
+                case Direction.DRight:
+                    return Direction.Down;
+                case Direction.Down:
+                    return Direction.DLeft;
+                case Direction.DLeft:
+                    return Direction.Left;
+                default:
+                    return Direction.Down;
+            }
+        }
+
+        public static Vector2 GetDirectionalVelocity(Vector2 startVelocity, Direction direction)
+        {
+            var velocity = startVelocity;
+            switch (direction)
+            {
+                case Direction.Down:
+                    velocity = new Vector2(0, .8f);
+                    break;
+
+                case Direction.Right:
+                    velocity = new Vector2(1, 0);
+                    break;
+
+                case Direction.Up:
+                    velocity = new Vector2(0, -.8f);
+                    break;
+
+                case Direction.DRight:
+                    velocity = new Vector2(1, .8f);
+                    velocity *= .8f;
+                    break;
+
+                case Direction.URight:
+                    velocity = new Vector2(1, -.8f);
+                    velocity *= .8f;
+                    break;
+
+                case Direction.Left:
+                    velocity = new Vector2(-1, 0);
+                    break;
+
+                case Direction.DLeft:
+                    velocity = new Vector2(-1, .8f);
+                    velocity *= .8f;
+                    break;
+
+                case Direction.ULeft:
+                    velocity = new Vector2(-1, -.8f);
+                    velocity *= .8f;
+                    break;
+            }
+
+            return velocity;
+        }
+
+        public static bool CheckIfAnimationShouldFlip(Direction direction, out int animationDirection)
+        {
+            animationDirection = (int)direction;
+            switch (direction)
+            {
+                case Direction.Left:
+                    animationDirection = 1;
+                    return true;
+                case Direction.DLeft:
+                    animationDirection = 3;
+                    return true;
+                case Direction.ULeft:
+                    animationDirection = 4;
+                    return true;
+            }
+            return false;
+        }
     }
+
+    
 }

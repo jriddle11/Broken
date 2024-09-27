@@ -16,6 +16,30 @@
 #begin Data/Configurations/RoomConfigs.json
 /copy:Data/Configurations/RoomConfigs.json
 
+#begin External Assets/Music/mainMenuTheme.mp3
+/importer:Mp3Importer
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:External Assets/Music/mainMenuTheme.mp3
+
+#begin External Assets/SoundEffects/SwordSwing.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:External Assets/SoundEffects/SwordSwing.wav
+
+#begin External Assets/TorchFire/fireCrackle.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:External Assets/TorchFire/fireCrackle.wav
+
+#begin External Assets/TorchFire/fireWoosh.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:External Assets/TorchFire/fireWoosh.wav
+
 #begin External Assets/TorchFire/TorchFireSheet.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -34,6 +58,18 @@
 /processorParam:PremultiplyAlpha=True
 /processorParam:TextureFormat=Compressed
 /build:Jorvik Informal.spritefont
+
+#begin My Assets/Dev/circle.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:My Assets/Dev/circle.png
 
 #begin My Assets/Environment/RectRoomBack.png
 /importer:TextureImporter

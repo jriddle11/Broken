@@ -1,11 +1,11 @@
 ﻿using Microsoft.Xna.Framework;
-using Broken.Scripts.Interfaces;
+using Broken.Scripts;
 using Broken.Scripts.Models;
 using System.Collections.Generic;
 
-namespace Broken.Scripts.Common
+namespace Broken.Scripts
 {
-    public struct BoundingRectangle : ICollider
+    public struct BoundingRectangle
     {
         public float X;
 
@@ -75,11 +75,6 @@ namespace Broken.Scripts.Common
         public bool CollidesWith(BoundingCircle other)
         {
             return CollisionHelper.Collides(other, this);
-        }
-
-        public bool CollidesWith(ICollider other)
-        {
-            return CollisionHelper.Collides(this, other);
         }
     }
 }

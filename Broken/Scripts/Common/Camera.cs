@@ -3,7 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Broken.Scripts.MainGame;
 
-namespace Broken.Scripts.Common
+namespace Broken.Scripts
 {
     /// <summary>
     /// Object for changing the viewport location, following the player, and zooming in/out in steps.

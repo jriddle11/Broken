@@ -1,7 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
-using Broken.Scripts.Common;
 using Broken.Scripts.MainGame;
 
 namespace Broken
@@ -22,7 +21,7 @@ namespace Broken
         protected override void Initialize()
         {
             OutputManager.Initialize(this);
-            DevManager.Initialize();
+            DevManager.Initialize(this);
 
             _mainMenu = new MainMenuController();
             _gameController = GameController.Instance;

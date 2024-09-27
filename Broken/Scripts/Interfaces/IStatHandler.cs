@@ -1,9 +1,9 @@
 ﻿using Broken.Scripts.MainGame;
 
-namespace Broken.Scripts.Interfaces
+namespace Broken.Scripts
 {
     public interface IStatHandler
     {
-        public void HandleLevelUp(CharacterStats stats);
+        public void HandleLevelUp(EntityStats stats);
     }
 }

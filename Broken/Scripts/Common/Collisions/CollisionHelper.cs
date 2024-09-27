@@ -1,38 +1,11 @@
 ﻿using System;
 using Microsoft.Xna.Framework;
-using Broken.Scripts.Interfaces;
+using Broken.Scripts;
 
-namespace Broken.Scripts.Common
+namespace Broken.Scripts
 {
     public static class CollisionHelper
     {
-        public static bool Collides(BoundingCircle a, ICollider b)
-        {
-            if(b is BoundingCircle circleB)
-            {
-                return Collides(a, circleB);
-            }
-            if(b is BoundingRectangle rectB)
-            {
-                return Collides(a, rectB);
-            }
-
-            return false;
-        }
-
-        public static bool Collides(BoundingRectangle a, ICollider b)
-        {
-            if (b is BoundingCircle circleB)
-            {
-                return Collides(a, circleB);
-            }
-            if (b is BoundingRectangle rectB)
-            {
-                return Collides(a, rectB);
-            }
-            return false;
-        }
-
         /// <summary>
         /// Detects collision between 2 bounding circles
         /// </summary>

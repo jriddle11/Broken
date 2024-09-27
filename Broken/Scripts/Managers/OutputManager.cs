@@ -1,7 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
-using Broken.Scripts.Common;
+using Broken.Scripts;
 
 namespace Broken
 {
