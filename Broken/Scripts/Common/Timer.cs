@@ -1,7 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace Broken.Scripts
+namespace Broken
 {
     /// <summary>
     /// Object for timing things
@@ -29,6 +29,7 @@ namespace Broken.Scripts
 
         public void Update(GameTime gametime)
         {
+            if (TimesUp) return;
             _currentTime += gametime.ElapsedGameTime.TotalSeconds;
         }
 

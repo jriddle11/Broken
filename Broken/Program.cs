@@ -1,3 +1,3 @@
-﻿
-using var game = new Broken.BrokenGame();
+﻿using Broken;
+using var game = new BrokenGame();
 game.Run();

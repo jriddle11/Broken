@@ -1,9 +1,9 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
-using Broken.Scripts.MainGame;
+using Broken.Entities;
 
-namespace Broken.Scripts
+namespace Broken
 {
     /// <summary>
     /// Object for changing the viewport location, following the player, and zooming in/out in steps.
@@ -13,6 +13,13 @@ namespace Broken.Scripts
         public bool CanZoom = false;
         public Matrix Transform { get; private set; } = Matrix.Identity;
         public Vector2 Boundaries;
+        public Vector2 Position 
+        { 
+            get 
+            { 
+                return _position;
+            }
+        }
 
         Vector2 _position;
         Viewport _viewport;
