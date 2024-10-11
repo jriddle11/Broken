@@ -2,7 +2,7 @@
 using Microsoft.Xna.Framework.Graphics;
 using System.Collections.Generic;
 using System;
-using System.Diagnostics;
+using Broken.Audio;
 
 namespace Broken.Entities
 {
@@ -11,7 +11,7 @@ namespace Broken.Entities
         public uint ID;
         private static uint nextId = 0;
 
-        protected Texture2DList Textures = new();
+        protected TextureLibrary Textures = new();
 
         public CharacterStatus Status = new();
 
@@ -19,90 +19,44 @@ namespace Broken.Entities
 
         public AttackHandler AttackHandler;
 
-        public Vector2 Position { get; set; }
-
-        public Vector2 Velocity { get; set; }
+        public Vector2 Position, Velocity;
 
         public Direction Direction { get; protected set; }
 
-        public float Speed { get; set; } = 400f;
+        public float Speed = 400f;
 
-        public float Scale { get; set; } = .65f;
+        public float Scale = .65f;
 
         #region Collision Variables
         public virtual bool IsDead { get; protected set; } = false;
         public virtual bool HasDamageCollision { get; protected set; } = true;
-        public BoundingRectangle FloorCollider
+        public BoundingRectangle Collider
         {
             get
             {
-                return _floorCollider;
+                return _collider;
             }
             protected set
             {
-                _floorCollider = value;
+                _collider = value;
             }
         }
-        public Vector2 FloorColliderOffset = Vector2.Zero;
-        public Vector2 CenterFloorPosition => new Vector2(FloorCollider.X + FloorCollider.Width / 2, FloorCollider.Y + FloorCollider.Height / 2);
-        BoundingRectangle _floorCollider;
+        public Vector2 ColliderOffset = Vector2.Zero;
+        public Vector2 CenterFloorPosition => new Vector2(Collider.X + Collider.Width / 2, Collider.Y + Collider.Height / 2);
+        BoundingRectangle _collider;
 
         #endregion
 
         #region Animation Variables
         public DrawRecord DrawRecord { get; protected set; } = new();
-        public bool FollowingThrough => _currentFreezeFrame < _totalFreezeFrames;
+        public bool FollowingThrough => CurrentFreezeFrame < TotalFreezeFrames;
         public bool AnimationEnding { get; protected set; }
-        protected int CurrentAnimationFrame
-        {
-            get
-            {
-                return _currentFrame;
-            }
-            set
-            {
-                _currentFrame = value;
-            }
-        }
-        protected int TotalAnimationFrames
-        {
-            get
-            {
-                return _totalFrames;
-            }
-            set
-            {
-                _totalFrames = value;
-            }
-        }
-        protected int CurrentFreezeFrame
-        {
-            get
-            {
-                return _currentFreezeFrame;
-            }
-            set
-            {
-                _currentFreezeFrame = value;
-            }
-        }
-        protected int TotalFreezeFrames
-        {
-            get
-            {
-                return _totalFreezeFrames;
-            }
-            set
-            {
-                _totalFreezeFrames = value;
-            }
-        }
+        protected int CurrentAnimationFrame;
+        protected int TotalAnimationFrames = 7;
+        protected int CurrentFreezeFrame;
+        protected int TotalFreezeFrames = 7;
         protected Timer AnimationTimer;
 
-        int _totalFreezeFrames = 7;
-        int _currentFreezeFrame = 0;
-        int _currentFrame = 0;
-        int _totalFrames = 7;
         #endregion
 
         #region Damage Variables
@@ -154,9 +108,7 @@ namespace Broken.Entities
                 // Move the character
                 Position += Velocity;
 
-                UpdateFloorCollider();
-                CheckRoomCollisions();
-                CheckEntityCollisions();
+                UpdateCollider();
             }
            
             if (_knockbackTimer.TimeIsUp(gameTime))
@@ -179,10 +131,10 @@ namespace Broken.Entities
             AnimationEnding = true;
         }
 
-        protected virtual void UpdateFloorCollider()
+        public virtual void UpdateCollider()
         {
-            _floorCollider.X = Position.X + FloorColliderOffset.X;
-            _floorCollider.Y = Position.Y + FloorColliderOffset.Y;
+            _collider.X = Position.X + ColliderOffset.X;
+            _collider.Y = Position.Y + ColliderOffset.Y;
         }
 
         protected virtual void ApplyVelocity(GameTime gameTime)
@@ -194,56 +146,12 @@ namespace Broken.Entities
 
             Position += Velocity;
 
-            UpdateFloorCollider();
+            UpdateCollider();
         }
 
         protected float GetRoomDepth()
         {
-            return GameScreen.Instance.GetRoomDepth(FloorCollider);
-        }
-
-        protected virtual void CheckRoomCollisions()
-        {
-            var rects = GameScreen.Instance.CurrentRoom.RectangleColliders;
-            if (rects != null)
-            {
-                foreach (BoundingRectangle r in rects)
-                {
-                    SeperateFromRectangleCollider(r);
-                }
-            }
-            
-        }
-
-        protected virtual void CheckEntityCollisions()
-        {
-            return; // DISABLED
-            foreach (var entity in GameScreen.Instance.CurrentCharacters)
-            {
-                if (entity.ID == this.ID) continue;
-                SeperateFromRectangleCollider(entity.FloorCollider);
-            }
-        }
-
-        private void SeperateFromRectangleCollider(BoundingRectangle r)
-        {
-            int i = 0;
-            while (FloorCollider.CollidesWith(r) && i < 10)
-            {
-                i++;
-                float overlapX = Math.Min(FloorCollider.Right - r.Left, r.Right - FloorCollider.Left);
-                float overlapY = Math.Min(FloorCollider.Bottom - r.Top, r.Bottom - FloorCollider.Top);
-
-                if (Math.Abs(overlapX) < Math.Abs(overlapY))
-                {
-                    Position = new Vector2(Position.X - (Velocity.X * 1.025f), Position.Y - (Velocity.Y * .025f));
-                }
-                else
-                {
-                    Position = new Vector2(Position.X - (Velocity.X * .025f), Position.Y - (Velocity.Y * 1.025f));
-                }
-                UpdateFloorCollider();
-            }
+            return GameScreen.Instance.GetRoomDepth(Collider);
         }
     }
 }

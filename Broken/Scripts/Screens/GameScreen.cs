@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using Broken.Entities;
 using Broken.UI;
+using Broken.Audio;
 
 namespace Broken
 {
@@ -13,7 +14,6 @@ namespace Broken
     public class GameScreen
     {
         private static GameScreen _instance;
-
         public static GameScreen Instance
         {
             get
@@ -25,10 +25,17 @@ namespace Broken
                 return _instance;
             }
         }
+
+        public bool IsActive;
+        public bool Paused;
+
         public CharacterList CurrentCharacters = new();
         private CharacterList DeadCharacters = new();
+
         public List<DeathAnimator> DeathAnimations = new();
         private List<DeathAnimator> FinishedAnimations = new();
+
+        public ExpSystem ExpSystem = new(1000);
         public Player GetPlayer
         {
             get
@@ -65,11 +72,9 @@ namespace Broken
             }
         }
 
-        bool _isActive;
         Player _player;
         PlayerHUD _playerHUD = new();
         Room _currentRoom;
-        ExpSystem _expSystem = new(2000);
 
         public void LoadContent(Game game)
         {
@@ -83,12 +88,12 @@ namespace Broken
             CurrentCharacters.LoadContent(game);
             OutputManager.Camera.Boundaries = CurrentRoomSize;
             _playerHUD.LoadContent(game);
-            _expSystem.LoadContent(game);
+            ExpSystem.LoadContent(game);
         }
 
         public void StartGame()
         {
-            _isActive = true;
+            IsActive = true;
             OutputManager.Camera.ForceZoom(.7f);
             OutputManager.Camera.CanZoom = true;
         }
@@ -98,7 +103,7 @@ namespace Broken
 
             for (int i = 0; i < character.Status.Experience; ++i)
             {
-                _expSystem.GenerateExperience(character.CenterFloorPosition, 0.5f);
+                ExpSystem.GenerateExperience(character.CenterFloorPosition, 0.5f);
             }
             DeadCharacters.Add(character);
             DeathAnimations.Add(new DeathAnimator(character.DrawRecord, character.Position));
@@ -129,24 +134,27 @@ namespace Broken
 
         public void Update(GameTime gameTime)
         {
-            if (!_isActive) return;
+            if (!IsActive) return;
+            if(Paused) return;
             DeadCleanUp(gameTime);
             OutputManager.Camera.Follow(_player);
             _currentRoom.Update(gameTime);
             CurrentCharacters.Update(gameTime);
-            _expSystem.Update(gameTime);
+            ExpSystem.Update(gameTime);
+            CollisionHelper.ResolveCollisions(CurrentCharacters, CurrentRoom.RectangleColliders, 3);
         }
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            if(!_isActive) return;
+            if(!IsActive) return;
             _currentRoom.Draw(spriteBatch);
             CurrentCharacters.Draw(spriteBatch);
-            _playerHUD.Draw(spriteBatch);
-            _expSystem.Draw(spriteBatch);
+            ExpSystem.Draw(spriteBatch);
             DrawDeathAnimations(spriteBatch);
 
             DevManager.DrawCharacterInstructions(spriteBatch);
+
+            _playerHUD.Draw(spriteBatch);
         }
 
         private void DrawDeathAnimations(SpriteBatch spriteBatch)

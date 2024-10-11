@@ -48,9 +48,9 @@ namespace Broken.Entities
 
         private void Initialize()
         {
-            FloorCollider = new BoundingRectangle(Position.X, Position.Y, 60, 60);
-            FloorColliderOffset = new Vector2(232.375f - 30, 232.375f + 30);
-            UpdateFloorCollider();
+            Collider = new BoundingRectangle(Position.X, Position.Y, 60, 60);
+            ColliderOffset = new Vector2(232.375f - 30, 232.375f + 30);
+            UpdateCollider();
 
             ANIMATION_IDLE_FRAMERATE -= RandomHelper.NextFloat(0f, .05f);
             _combatAI = new EnemyCombatAI(3f - RandomHelper.NextFloat(0f, 2f));
@@ -100,9 +100,9 @@ namespace Broken.Entities
 
             CheckMovement(gameTime);
 
-            CheckRoomCollisions();
+            //CheckRoomCollisions();
 
-            CheckEntityCollisions();
+            //CheckEntityCollisions();
         }
 
         protected override void AnimationFrameTick()

@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Audio;
 using System.Collections.Generic;
 using System;
+using Broken.Audio;
 
 namespace Broken.Entities
 { 
@@ -22,6 +23,10 @@ namespace Broken.Entities
         const float ROLL_SPEED = 575;
         const float RUN_SPEED = 450;
 
+        //sounds
+        const float SWING_VOLUME = 1f;
+        const float SWING_DMG_VOLUME = 0.4f;
+
         //animation constants
         const float ANIMATION_RUN_FRAMERATE = 0.07f;
         const float ANIMATION_IDLE_FRAMERATE = 0.16f;
@@ -38,10 +43,6 @@ namespace Broken.Entities
         Timer _attackSpeedTimer;
         Timer _rollDelayTimer;
 
-        // Sound effect variables
-        private SoundEffect _swordSound;
-        private SoundEffectInstance _soundInstance;
-
         //helpers
         public Vector2 CenterPosition => new Vector2(Position.X + _playerHalfSize, Position.Y + _playerHalfSize);
         float _playerHalfSize => (TEXTURE_WIDTH * Scale) / 2;
@@ -50,6 +51,8 @@ namespace Broken.Entities
         public Player(Vector2 position)
         {
             Position = position;
+            StatusHandler = new PlayerStatusHandler(Status);
+            AttackHandler = new PlayerAttackHandler(ID);
         }
 
         public override void LoadContent(Game game)
@@ -61,35 +64,30 @@ namespace Broken.Entities
             Textures.Add("slam", "My Assets/Player/PlayerSwordSlam", game);
             Textures.Add("roll", "My Assets/Player/PlayerRoll", game);
             Textures.Add("trail", "My Assets/Player/PlayerSwordTrail", game);
-            _swordSound = game.Content.Load<SoundEffect>("External Assets/SoundEffects/SwordSwing");
             Initialize();
         }
 
         private void Initialize()
         {
-            _soundInstance = _swordSound.CreateInstance();
-            _soundInstance.Volume = 0.5f;
             AnimationTimer = new Timer(ANIMATION_IDLE_FRAMERATE);
             _attackSpeedTimer = new Timer(AttackSpeed);
             _rollDelayTimer = new Timer(RollDelay);
 
-            AttackHandler = new PlayerAttackHandler(ID);
-
-            FloorCollider = new BoundingRectangle(Vector2.Zero, 60, 60);
-            FloorColliderOffset = new Vector2(232.375f - 25, 232.375f + 30);
-            UpdateFloorCollider();
-            Status.Experience = 10;
-            Status.MaxExperience = 15;
+            Collider = new BoundingRectangle(Vector2.Zero, 60, 60);
+            ColliderOffset = new Vector2(232.375f - 25, 232.375f + 30);
+            UpdateCollider();
         }
 
         private void Attack()
         {
-            AttackHandler.Attack(this, GameScreen.Instance.CurrentCharacters);
-            //_swordSound.Play();
+            SoundEffectPlayer.PlaySound("SwordSwing", SWING_VOLUME);
+            AttackHandler.Attack(this, GameScreen.Instance.CurrentCharacters, out bool attackHit);
+            if(attackHit) SoundEffectPlayer.PlaySound("SwordDmg", SWING_DMG_VOLUME);
         }
 
         public override void Update(GameTime gameTime)
         {
+            StatusHandler.Update(gameTime);
             _attackSpeedTimer.Update(gameTime);
             _rollDelayTimer.Update(gameTime);
 
@@ -97,12 +95,7 @@ namespace Broken.Entities
 
             CheckPlayerActionInput();
 
-            var pos = Position;
             CheckPlayerMovementInput(gameTime);
-
-            CheckRoomCollisions();
-
-            CheckEntityCollisions();
         }
 
         protected override void AnimationFrameTick()

@@ -15,11 +15,6 @@ namespace Broken.Entities
             Initialize(stats);
         }
 
-        public override void HandleLevelUp()
-        {
-
-        }
-
         public override void Initialize(CharacterStatus stats)
         {
             base.Initialize(stats);

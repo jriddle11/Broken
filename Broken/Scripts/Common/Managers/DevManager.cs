@@ -10,7 +10,7 @@ namespace Broken
     {
 
         static Texture2D _singlePixelTexture;
-        static Texture2DList Textures = new();
+        static TextureLibrary Textures = new();
 
         const int CIRCLE_RADIUS = 7;
 

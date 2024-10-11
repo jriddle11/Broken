@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Audio;
 
 namespace Broken.Entities
 {
@@ -20,13 +21,15 @@ namespace Broken.Entities
         {
             ID = id;
         }
-        public virtual void Attack(Character attacker, CharacterList entities)
+        public virtual void Attack(Character attacker, CharacterList entities, out bool attackHit)
         {
+            attackHit = false;
             foreach(Character entity in entities)
             {
                 if (entity.ID == ID) continue;
                 if(_attacked.Contains(entity.ID)) continue;
-                CheckDamageCollisions(entity);
+                CheckDamageCollisions(entity, out bool hit);
+                if(hit) attackHit = true;
             }
             _attacked.Clear();
         }
@@ -39,19 +42,19 @@ namespace Broken.Entities
             }
         }
 
-        private void CheckDamageCollisions(Character entity)
+        private void CheckDamageCollisions(Character entity, out bool hit)
         {
+            hit = false;
             foreach (var col in _colliders)
             { 
-                if (col.CollidesWith(entity.FloorCollider))
+                if (col.CollidesWith(entity.Collider))
                 {
+                    hit = true;
                     entity.Damage(1, knockbackVelocity, knockbackSpeed, knockbackTime);
                     _attacked.Add(entity.ID);
                     break;
                 }
             }
         }
-
-
     }
 }

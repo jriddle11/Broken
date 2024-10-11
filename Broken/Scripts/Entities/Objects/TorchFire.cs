@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Audio;
 using System;
 using System.Diagnostics;
+using Broken.Audio;
 
 namespace Broken.Entities
 {
@@ -26,9 +27,7 @@ namespace Broken.Entities
 
         // Sound effect variables
         private SoundEffect _torchSound;
-        private SoundEffect _torchWoosh;
         private SoundEffectInstance _soundInstance;
-        private SoundEffectInstance _soundWooshInstance;
 
         public TorchFire(Vector2 pos, Game game)
         {
@@ -54,11 +53,8 @@ namespace Broken.Entities
             _fireTexture = game.Content.Load<Texture2D>("External Assets/TorchFire/TorchFireSheet");
             _animationTimer = new Timer(AnimationSpeed);
 
-            _torchSound = game.Content.Load<SoundEffect>("External Assets/TorchFire/fireCrackle");
-            _torchWoosh = game.Content.Load<SoundEffect>("External Assets/TorchFire/fireWoosh");
+            _torchSound = game.Content.Load<SoundEffect>("External Assets/SoundEffects/FireCrackle");
             _soundInstance = _torchSound.CreateInstance();
-            _soundWooshInstance = _torchWoosh.CreateInstance();
-            _soundWooshInstance.Volume = .8f;
             _soundInstance.IsLooped = true; 
 
             if(Visited) _soundInstance.Play();
@@ -78,7 +74,7 @@ namespace Broken.Entities
                 if (!Visited)
                 {
                     Visited = true;
-                    _soundWooshInstance.Play();
+                    SoundEffectPlayer.PlaySound("FireLightUp", pan: _soundInstance.Pan);
                     _soundInstance.Play();
                 }
                 
@@ -91,7 +87,7 @@ namespace Broken.Entities
 
         private bool PlayerIsInRange()
         {
-            return GameScreen.Instance.GetPlayer.FloorCollider.CollidesWith(_detectionCollider);
+            return GameScreen.Instance.GetPlayer.Collider.CollidesWith(_detectionCollider);
         }
 
         private void UpdateAnimationFrame()
@@ -116,15 +112,13 @@ namespace Broken.Entities
 
             // Set the sound instance's pan and volume based on distance
             // Max volume when the player is close, reduce it with distance
-            float maxDistance = 600f; // Adjust based on how far you want the sound to carry
-            float volume = MathHelper.Clamp(1.3f - (Math.Abs(distance) / maxDistance), 0, 1);
+            float maxDistance = 800f; // Adjust based on how far you want the sound to carry
+            float volume = MathHelper.Clamp(1.5f - (Math.Abs(distance) / maxDistance), 0, 1);
             float pan = Math.Clamp(0 - (direction.X / maxDistance),-1f,1f);
 
             // Apply volume and pan to the sound instance
             _soundInstance.Volume = volume;
             _soundInstance.Pan = pan;
-
-            _soundWooshInstance.Pan = pan;
         }
     }
 }

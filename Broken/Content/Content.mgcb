@@ -16,11 +16,35 @@
 #begin Data/Configurations/RoomConfigs.json
 /copy:Data/Configurations/RoomConfigs.json
 
-#begin External Assets/Music/mainMenuTheme.mp3
+#begin External Assets/Music/CaveIdle.mp3
 /importer:Mp3Importer
 /processor:SongProcessor
 /processorParam:Quality=Best
-/build:External Assets/Music/mainMenuTheme.mp3
+/build:External Assets/Music/CaveIdle.mp3
+
+#begin External Assets/Music/WorthyAdversary.mp3
+/importer:Mp3Importer
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:External Assets/Music/WorthyAdversary.mp3
+
+#begin External Assets/SoundEffects/FireCrackle.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:External Assets/SoundEffects/FireCrackle.wav
+
+#begin External Assets/SoundEffects/FireLightUp.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:External Assets/SoundEffects/FireLightUp.wav
+
+#begin External Assets/SoundEffects/SwordDmg.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:External Assets/SoundEffects/SwordDmg.wav
 
 #begin External Assets/SoundEffects/SwordSwing.wav
 /importer:WavImporter
@@ -28,17 +52,11 @@
 /processorParam:Quality=Best
 /build:External Assets/SoundEffects/SwordSwing.wav
 
-#begin External Assets/TorchFire/fireCrackle.wav
+#begin External Assets/SoundEffects/XpGet.wav
 /importer:WavImporter
 /processor:SoundEffectProcessor
 /processorParam:Quality=Best
-/build:External Assets/TorchFire/fireCrackle.wav
-
-#begin External Assets/TorchFire/fireWoosh.wav
-/importer:WavImporter
-/processor:SoundEffectProcessor
-/processorParam:Quality=Best
-/build:External Assets/TorchFire/fireWoosh.wav
+/build:External Assets/SoundEffects/XpGet.wav
 
 #begin External Assets/TorchFire/TorchFireSheet.png
 /importer:TextureImporter
@@ -214,6 +232,18 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:My Assets/Menu/MouseAndKey.png
+
+#begin My Assets/Menu/PauseBg.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:My Assets/Menu/PauseBg.png
 
 #begin My Assets/Menu/Placeholder.png
 /importer:TextureImporter

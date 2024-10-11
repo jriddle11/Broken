@@ -1,6 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 
-namespace Broken.Entities
+namespace Broken
 {
     /// <summary>
     /// A struct representing circular bounds

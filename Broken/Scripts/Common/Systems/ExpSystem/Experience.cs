@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using System.Diagnostics;
 
 namespace Broken
 {
@@ -6,15 +7,16 @@ namespace Broken
     {
         public Vector2 Position;
         public Vector2 Velocity;
-        public float MoveDuration;  // How long the experience moves
-        public float MoveTime;      // How much time has passed moving
+        public float MoveDuration;
+        public float MoveTime;
         public bool IsMoving => MoveTime < MoveDuration;
+        public bool IsVisible;
+        public bool IsNearPlayer;
 
-        // Animation-related
         public int CurrentFrame;
-        public float FrameTime;     // How long since the last frame update
-        private const float FrameDuration = 0.1f;  // 0.15 seconds per frame
-        private const int TotalFrames = 7;          // Total number of frames in the animation
+        public float FrameTime;
+        private const float FrameDuration = 0.1f;
+        private const int TotalFrames = 7;
 
         public Experience(Vector2 position, Vector2 velocity, float moveDuration)
         {
@@ -22,26 +24,39 @@ namespace Broken
             Velocity = velocity;
             MoveDuration = moveDuration;
             MoveTime = 0f;
+            IsVisible = false;
+            IsNearPlayer = false;
 
-            // Initialize animation
             CurrentFrame = 0;
             FrameTime = 0f;
         }
 
         public void Update(float deltaTime)
         {
-            // Handle movement
             if (IsMoving)
             {
                 Position += Velocity * deltaTime;
                 MoveTime += deltaTime;
             }
+            else
+            {
+                var player = GameScreen.Instance.GetPlayer;
+                if (!IsNearPlayer)
+                {
+                    var distance = Vector2.Distance(Position, player.CenterFloorPosition);
+                    IsNearPlayer = distance < player.Status.ExperienceGatherRange;
+                    
+                }
+                else
+                {
+                    Velocity = DirectionHelper.GetDirectionalVelocity(Velocity, DirectionHelper.GetDirection(Position, player.CenterFloorPosition));
+                    Position += Velocity * deltaTime * 700;
+                }
+            }
 
-            // Handle animation
             FrameTime += deltaTime;
             if (FrameTime >= FrameDuration)
             {
-                // Move to the next frame
                 CurrentFrame = (CurrentFrame + 1) % TotalFrames;
                 FrameTime = 0f;
             }
@@ -53,10 +68,12 @@ namespace Broken
             Velocity = velocity;
             MoveDuration = moveDuration;
             MoveTime = 0f;
+            IsVisible = true;
+            IsNearPlayer = false;
 
-            // Reset animation
             CurrentFrame = 0;
             FrameTime = 0f;
         }
     }
+
 }

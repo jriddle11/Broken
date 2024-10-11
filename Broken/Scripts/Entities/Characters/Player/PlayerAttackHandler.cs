@@ -1,10 +1,12 @@
 ﻿using System;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Audio;
 
 namespace Broken.Entities
 {
     public class PlayerAttackHandler : AttackHandler
     {
+
         public PlayerAttackHandler(uint id) : base(id)
         {
             _colliders.Add(new BoundingCircle(new Vector2(1000,1000), 170));
@@ -12,12 +14,12 @@ namespace Broken.Entities
             _colliders.Add(new BoundingCircle(new Vector2(1000, 1000), 70));
         }
 
-        public override void Attack(Character attacker, CharacterList entities)
+        public override void Attack(Character attacker, CharacterList entities, out bool attackHit)
         {
             var player = attacker as Player;
             SetupDamageColliders(player);
             SetupAttackModifiers(player);
-            base.Attack(attacker, entities);
+            base.Attack(attacker, entities, out attackHit);
         }
 
         private void SetupDamageColliders(Player player)

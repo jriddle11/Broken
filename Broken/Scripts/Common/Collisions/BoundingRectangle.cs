@@ -1,8 +1,11 @@
 ﻿using Microsoft.Xna.Framework;
 using System.Collections.Generic;
 
-namespace Broken.Entities
+namespace Broken
 {
+    /// <summary>
+    /// Struct representing rectangular bounds
+    /// </summary>
     public struct BoundingRectangle
     {
         public float X;

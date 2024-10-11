@@ -6,7 +6,10 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Broken
 {
-    public class Texture2DList : IEnumerable<Texture2D>
+    /// <summary>
+    /// Maintains a dictionary containing Texture2D objects
+    /// </summary>
+    public class TextureLibrary : IEnumerable<Texture2D>
     {
         private Dictionary<string, Texture2D> _textures = new();
 

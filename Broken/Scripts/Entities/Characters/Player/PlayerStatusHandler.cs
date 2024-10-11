@@ -9,19 +9,37 @@ namespace Broken.Entities
 {
     public class PlayerStatusHandler : IStatusHandler
     {
-        public void Damage(int i)
-        {
-            throw new NotImplementedException();
-        }
+        private CharacterStatus _status;
 
-        public void HandleLevelUp()
+        private bool Initialized = false;
+
+        public PlayerStatusHandler(CharacterStatus stats)
         {
-            throw new NotImplementedException();
+            Initialize(stats);
         }
 
         public void Update(GameTime gameTime)
         {
-            throw new NotImplementedException();
+            if (!Initialized) throw new Exception("EnemyStatHandler was updated before being initialized");
+            if (_status.Experience >= _status.MaxExperience) HandleLevelUp();
+        }
+
+        private void HandleLevelUp()
+        {
+            _status.Level++;
+            _status.Experience -= _status.MaxExperience;
+            if (_status.Experience < 0) _status.Experience = 0;
+        }
+
+        private void Initialize(CharacterStatus stats)
+        {
+            _status = stats;
+            Initialized = true;
+        }
+
+        public void Damage(int i)
+        {
+            if (!_status.Invulnerable) _status.Health -= i;
         }
     }
 }

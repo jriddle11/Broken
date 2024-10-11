@@ -16,6 +16,7 @@ namespace Broken
         public static bool HoldingRight;
 
         public static bool HoldingSpace;
+        public static bool HoldingEscape;
         public static bool HoldingShift;
 
         public static bool IsHolding => HoldingDown || HoldingLeft || HoldingUp || HoldingRight;
@@ -26,6 +27,7 @@ namespace Broken
         public static bool PressedRight;
 
         public static bool PressedSpace;
+        public static bool PressedEscape;
 
         private static KeyboardState _priorKeyboardState;
         private static KeyboardState _currentKeyboardState;
@@ -64,12 +66,6 @@ namespace Broken
 
         public static void Update(Game game)
         {
-            #region Temporary emergency escape
-
-            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
-                game.Exit();
-
-            #endregion
 
             #region Mouse
 
@@ -101,6 +97,7 @@ namespace Broken
 
             HoldingSpace = _currentKeyboardState.IsKeyDown(Keys.Space);
             HoldingShift = _currentKeyboardState.IsKeyDown(Keys.LeftShift) || _currentKeyboardState.IsKeyDown(Keys.RightShift);
+            HoldingEscape = _currentKeyboardState.IsKeyDown(Keys.Escape);
 
             //Pressing button
             PressedDown = HoldingDown && _priorKeyboardState.IsKeyUp(Keys.S) && _priorKeyboardState.IsKeyUp(Keys.Down);
@@ -109,6 +106,7 @@ namespace Broken
             PressedLeft = HoldingLeft && _priorKeyboardState.IsKeyUp(Keys.Left) && _priorKeyboardState.IsKeyUp(Keys.A);
 
             PressedSpace = HoldingSpace && _priorKeyboardState.IsKeyUp(Keys.Space);
+            PressedEscape = HoldingEscape && _priorKeyboardState.IsKeyUp(Keys.Escape);
 
 
             #endregion

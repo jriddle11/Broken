@@ -11,6 +11,7 @@ namespace Broken.UI
         public Color FontColor = Color.Black;
         public Color HighLightColor = Color.Black;
         public bool IsHighlighted = false;
+        public bool Centered = true;
         public float Scale = 1f;
         public float LastTimeHovered;
 
@@ -49,7 +50,10 @@ namespace Broken.UI
             Color color = IsHighlighted ? HighLightColor : FontColor;
             color *= opacity;
             Vector2 textSize = _jorvikFont.MeasureString(Text);
-            spriteBatch.DrawString(_jorvikFont, Text, Position, color, 0f, textSize / 2, Scale, SpriteEffects.None, 0f);
+            if(Centered)
+                spriteBatch.DrawString(_jorvikFont, Text, Position, color, 0f, textSize / 2, Scale, SpriteEffects.None, 0f);
+            else
+                spriteBatch.DrawString(_jorvikFont, Text, Position, color, 0f, new Vector2(0f,textSize.Y), Scale, SpriteEffects.None, 0f);
         }
     }
 }

@@ -13,8 +13,6 @@ namespace Broken.Entities
         protected CharacterStatus Status;
         protected bool Initialized = false;
 
-        public abstract void HandleLevelUp();
-
         public virtual void Update(GameTime gameTime)
         {
             if (!Initialized) throw new Exception("EnemyStatHandler was updated before being initialized");

@@ -25,12 +25,13 @@ namespace Broken
                 return _instance;
             }
         }
+
         public int HighlightedOption = 0;
         public bool IsActive = true;
 
         Texture2D _mainMenuBg;
         MenuText[] _menuButtons;
-        StaticGameObjectList _staticGameObjects = new();
+        List<IGameObject> _staticGameObjects = new();
         TitleCardSequence _titleCardSequence = new();
 
         Timer _timer;
@@ -55,7 +56,6 @@ namespace Broken
         {
             Color highlightColor = new Color(99, 215, 210);
             Color fogColor = new Color(49, 97, 94);
-            int screenWidth = OutputManager.ScreenWidth;
             int screenHeight = OutputManager.ScreenHeight;
             var weaponPos = new Vector2(1320, screenHeight / 2 - 450);
             var fogPos = new Vector2(1480, screenHeight / 2);
@@ -79,7 +79,7 @@ namespace Broken
         {
             _mainMenuBg = game.Content.Load<Texture2D>("My Assets/Menu/MainMenuBg");
             foreach (var button in _menuButtons) button.LoadContent(game);
-            _staticGameObjects.LoadContent(game);
+            foreach(var obj in _staticGameObjects) obj.LoadContent(game);
             _titleCardSequence.LoadContent(game);
             _titleCardSequence.Play();
         }
@@ -88,7 +88,10 @@ namespace Broken
         {
             if (!IsActive) return;
 
-            MusicPlayer.Play("WorthyAdversary", true, .5f);
+            if (!MusicPlayer.IsPlayingSong("WorthyAdversary"))
+            {
+                MusicPlayer.Play("WorthyAdversary", true, .5f);
+            }
             
             if (!_titleCardSequence.IsDone)
             {
@@ -108,7 +111,7 @@ namespace Broken
                 }
             }
 
-            _staticGameObjects.Update(gameTime);
+            foreach (var obj in _staticGameObjects) obj.Update(gameTime);
             if (_openingSequenceIsActive) return;
 
             CheckMenuInteractions(game, gameTime);
@@ -117,14 +120,6 @@ namespace Broken
         private void CheckMenuInteractions(BrokenGame game, GameTime gameTime)
         {
             #region Highlighting Buttons
-
-            //Keyboard
-            if (InputManager.PressedDown) HighlightedOption = (HighlightedOption + 1) % 4;
-            if (InputManager.PressedUp)
-            {
-                HighlightedOption -= 1;
-                if (HighlightedOption < 0) HighlightedOption = 3;
-            }
 
             //Mouse
             bool isHovering = false;
@@ -169,6 +164,7 @@ namespace Broken
             {
                 case 0:
                     //Selected "START"
+                    MusicPlayer.SlowStop(1.5f);
                     game.HandleStartGame();
                     break;
                 case 1:
@@ -200,7 +196,7 @@ namespace Broken
             var bgScale = new Vector2((float)OutputManager.ScreenWidth / _mainMenuBg.Width, (float)OutputManager.ScreenHeight / _mainMenuBg.Height);
             var timeLeft = (float)_timer.TimePercentLeft;
             spriteBatch.Draw(_mainMenuBg, Vector2.Zero, null, Color.White * timeLeft, 0f, Vector2.Zero, bgScale, SpriteEffects.None, 1f);
-            _staticGameObjects.Draw(spriteBatch, timeLeft);
+            foreach (var obj in _staticGameObjects) obj.Draw(spriteBatch, timeLeft);
             if (_openingSequenceIsActive) return;
             foreach (var button in _menuButtons) button.Draw(spriteBatch, timeLeft);
         }

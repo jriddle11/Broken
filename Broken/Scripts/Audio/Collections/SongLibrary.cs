@@ -6,7 +6,7 @@ using Microsoft.Xna.Framework.Media;
 
 namespace Broken.Audio
 {
-    public class SongList : IEnumerable<Song>
+    public class SongLibrary : IEnumerable<Song>
     {
         private Dictionary<string, Song> _songs = new();
 
