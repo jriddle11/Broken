@@ -81,13 +81,13 @@ namespace Broken.Entities
             }
             if (Visited)
             {
-                UpdateSoundPosition(GameScreen.Instance.GetPlayer.CenterPosition);
+                UpdateSoundPosition(GameContext.Player.CenterPosition);
             }
         }
 
         private bool PlayerIsInRange()
         {
-            return GameScreen.Instance.GetPlayer.Collider.CollidesWith(_detectionCollider);
+            return GameContext.Player.Collider.CollidesWith(_detectionCollider);
         }
 
         private void UpdateAnimationFrame()

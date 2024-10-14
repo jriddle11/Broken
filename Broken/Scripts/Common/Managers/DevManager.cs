@@ -12,17 +12,8 @@ namespace Broken
         static Texture2D _singlePixelTexture;
         static TextureLibrary Textures = new();
 
-        const int CIRCLE_RADIUS = 7;
-
-        public static void Initialize(Game game)
-        {
-            LoadContent(game);
-        }
-
         public static void LoadContent(Game game)
         {
-            Textures.Add("quit", "My Assets/Menu/Instructions", game);
-            Textures.Add("start", "My Assets/Menu/ClickStart", game);
             Textures.Add("character", "My Assets/Menu/CharacterInstructions", game);
             Textures.Add("circle", "My Assets/Dev/circle", game);
             _singlePixelTexture = new Texture2D(OutputManager.GraphicsDeviceManager.GraphicsDevice, 1, 1);
@@ -52,23 +43,14 @@ namespace Broken
         {
             Texture2D circleTexture = Textures["circle"];
 
-            // Calculate the position to draw the circle texture
             Vector2 origin = new Vector2(circleTexture.Width / 2f, circleTexture.Height / 2f);
-            Vector2 position = col.Center - origin; // Adjust position to center the circle
+            Vector2 position = col.Center - origin;
 
-            // Set the width and height based on the BoundingCircle's radius
             Rectangle sourceRectangle = new Rectangle(0, 0, circleTexture.Width, circleTexture.Height);
-            Vector2 size = new Vector2(col.Radius * 2, col.Radius * 2); // Diameter for width and height
+            Vector2 size = new Vector2(col.Radius * 2, col.Radius * 2); 
 
-            // Draw the texture using the size as destination rectangle
             spriteBatch.Draw(circleTexture, position, sourceRectangle, color, 0f, origin, size / new Vector2(circleTexture.Width, circleTexture.Height), SpriteEffects.None, 0f);
 
-        }
-
-        public static void DrawMenuInstructions(SpriteBatch spriteBatch)
-        {
-            spriteBatch.Draw(Textures["quit"], new Vector2(0, 600), Color.White);
-            spriteBatch.Draw(Textures["start"], new Vector2(0, 300), Color.White);
         }
 
         public static void DrawCharacterInstructions(SpriteBatch spriteBatch)

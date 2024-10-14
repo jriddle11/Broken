@@ -8,13 +8,14 @@ namespace Broken
     {
         public bool DebugMode = false;
 
+        public static BrokenGame Instance;
+
         private SpriteBatch _spriteBatch;
-        private MainMenuScreen _mainMenuScreen;
-        private GameScreen _gameScreen;
-        private PauseScreen _pauseScreen;
+        private GameController _controller;
 
         public BrokenGame()
         {
+            Instance = this;
             OutputManager.GraphicsDeviceManager = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
@@ -22,96 +23,44 @@ namespace Broken
 
         protected override void Initialize()
         {
-            OutputManager.Initialize(this);
-            DevManager.Initialize(this);
-            MusicPlayer.Initialize(this);
-            SoundEffectPlayer.Initialize(this);
-
-            _mainMenuScreen = MainMenuScreen.Instance;
-            _gameScreen = GameScreen.Instance;
-            _pauseScreen = PauseScreen.Instance;
-             
             base.Initialize();
         }
 
         protected override void LoadContent()
         {
-            _spriteBatch = new SpriteBatch(GraphicsDevice);
+            OutputManager.LoadContent(this);
+            DevManager.LoadContent(this);
+            MusicPlayer.LoadContent(this);
+            SoundEffectPlayer.LoadContent(this);
 
-            _mainMenuScreen.LoadContent(this);
-            _gameScreen.LoadContent(this);
-            _pauseScreen.LoadContent(this);
+            _controller = new GameController();
+            _controller.LoadContent(this);
+
+            _spriteBatch = new SpriteBatch(GraphicsDevice);
 
             if (DebugMode)
             {
-                HandleStartGame();
+                _controller.HandleDebugStart();
             }
         }
 
         protected override void Update(GameTime gameTime)
         {
-            if (InputManager.PressedEscape && _pauseScreen.IsActive)
-            {
-                if (_gameScreen.Paused)
-                {
-                    HandleUnpauseGame();
-                }
-                else
-                {
-                    HandlePauseGame();
-                }
-            }
-
             InputManager.Update(this);
             MusicPlayer.Update(gameTime);
 
-            _mainMenuScreen.Update(this, gameTime);
-            _gameScreen.Update(gameTime);
-            _pauseScreen.Update(this, gameTime);
-
+            _controller.Update(gameTime);
+            
             base.Update(gameTime);
         }
 
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(new Color(19,19,19));
-            OutputManager.Camera.Boundaries = _gameScreen.CurrentRoomSize;
 
-            _spriteBatch.Begin(SpriteSortMode.BackToFront, transformMatrix: OutputManager.Camera.Transform);
-            _mainMenuScreen.Draw(_spriteBatch);
-            _gameScreen.Draw(_spriteBatch);
-            _spriteBatch.End();
-            _spriteBatch.Begin(sortMode: SpriteSortMode.BackToFront);
-            _pauseScreen.Draw(_spriteBatch);
-            _spriteBatch.End();
+            _controller.Draw(_spriteBatch);
 
             base.Draw(gameTime);
-        }
-
-        public void HandleStartGame()
-        {
-            _mainMenuScreen.IsActive = false;
-            _pauseScreen.IsActive = true;
-            _gameScreen.StartGame();
-        }
-
-        public void HandlePauseGame()
-        {
-            _gameScreen.Paused = true;
-            _pauseScreen.Paused = true;
-        }
-
-        public void HandleUnpauseGame()
-        {
-            _gameScreen.Paused = false;
-            _pauseScreen.Paused= false;
-        }
-
-        public void HandleBackToMenu()
-        {
-            _gameScreen.IsActive = false;
-            _pauseScreen.IsActive = false;
-            _mainMenuScreen.IsActive = true;
         }
     }
 }

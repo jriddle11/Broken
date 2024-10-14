@@ -14,7 +14,7 @@ namespace Broken.Audio
         static bool _fading = false;
         static Timer _timer;
 
-        public static void Initialize(BrokenGame game)
+        public static void LoadContent(Game game)
         {
             _songs.Add("WorthyAdversary", "External Assets/Music/WorthyAdversary", game);
             _songs.Add("CaveIdle", "External Assets/Music/CaveIdle", game);

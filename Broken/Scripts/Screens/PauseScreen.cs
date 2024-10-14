@@ -9,28 +9,18 @@ namespace Broken
 {
     public class PauseScreen
     {
-        private static PauseScreen _instance;
-        public static PauseScreen Instance
-        {
-            get
-            {
-                if (_instance == null)
-                {
-                    _instance = new PauseScreen();
-                }
-                return _instance;
-            }
-        }
-
         public bool IsActive;
         public bool Paused;
 
-        public int HighlightedOption = 0;
+        public event Action Resume;
+        public event Action Pause;
+        public event Action Quit;
 
         Texture2D _pauseMenuBg;
         MenuText[] _menuButtons;
+        int _selection = 0;
 
-        private PauseScreen()
+        public PauseScreen()
         {
             Initialize();
         }
@@ -56,16 +46,29 @@ namespace Broken
             _pauseMenuBg = game.Content.Load<Texture2D>("My Assets/Menu/PauseBg");
         }
 
-        public void Update(BrokenGame game, GameTime gameTime)
+        public void Update(GameTime gameTime)
         {
-            if (!IsActive || !Paused) return;
-            CheckMenuInteractions(game, gameTime);
+            if (!IsActive) return;
+            
+            CheckMenuInteractions(gameTime);
         }
 
-        private void CheckMenuInteractions(BrokenGame game, GameTime gameTime)
+        private void CheckMenuInteractions(GameTime gameTime)
         {
-            #region Highlighting Buttons
+            if (InputManager.PressedEscape)
+            {
+                if (Paused)
+                {
+                    Resume?.Invoke();
+                }
+                else
+                {
+                    Pause?.Invoke();
+                }
+            }
+            if (!Paused) return;
 
+            #region Highlighting Buttons
             //Mouse
             bool isHovering = false;
             ClearButtonHighlights();
@@ -75,36 +78,36 @@ namespace Broken
                 {
                     _menuButtons[i].IsHighlighted = true;
                     _menuButtons[i].Scale = 0.85f;
-                    HighlightedOption = i;
+                    _selection = i;
                     isHovering = true;
                     break;
                 }
             }
             if (!isHovering)
             {
-                _menuButtons[HighlightedOption].Scale = 0.85f;
-                _menuButtons[HighlightedOption].IsHighlighted = true;
+                _menuButtons[_selection].Scale = 0.85f;
+                _menuButtons[_selection].IsHighlighted = true;
             }
             #endregion
 
             #region Selecting Buttons
 
-            if (InputManager.Mouse1Clicked && _menuButtons[HighlightedOption].IsMouseHovering(gameTime))
+            if (InputManager.Mouse1Clicked && _menuButtons[_selection].IsMouseHovering(gameTime))
             {
-                HandleSelection(game);
+                HandleSelection();
             }
 
 
             #endregion
         }
 
-        private void HandleSelection(BrokenGame game)
+        private void HandleSelection()
         {
-            switch (HighlightedOption)
+            switch (_selection)
             {
                 case 0:
                     //Selected "RESUME"
-                    game.HandleUnpauseGame();
+                    Resume?.Invoke();
                     break;
                 case 1:
                     //Selected "CONTROLS"
@@ -116,7 +119,7 @@ namespace Broken
                     break;
                 case 3:
                     //Selected "QUIT"
-                    game.Exit();
+                    Quit?.Invoke();
                     break;
             }
         }

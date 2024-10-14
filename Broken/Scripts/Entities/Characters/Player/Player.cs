@@ -81,7 +81,7 @@ namespace Broken.Entities
         private void Attack()
         {
             SoundEffectPlayer.PlaySound("SwordSwing", SWING_VOLUME);
-            AttackHandler.Attack(this, GameScreen.Instance.CurrentCharacters, out bool attackHit);
+            AttackHandler.Attack(this, GameContext.ActiveCharacters, out bool attackHit);
             if(attackHit) SoundEffectPlayer.PlaySound("SwordDmg", SWING_DMG_VOLUME);
         }
 

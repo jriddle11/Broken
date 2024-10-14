@@ -71,6 +71,11 @@ namespace Broken.Entities
             ID = nextId++;
         }
 
+        protected virtual void EnemyDeath()
+        {
+            GameContextHandler.Kill(this);
+        }
+
         public virtual void Update(GameTime gameTime)
         {
             if (AnimationTimer.TimeIsUp(gameTime))
@@ -151,7 +156,7 @@ namespace Broken.Entities
 
         protected float GetRoomDepth()
         {
-            return GameScreen.Instance.GetRoomDepth(Collider);
+            return GameContext.GetRoomDepth(Collider);
         }
     }
 }

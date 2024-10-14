@@ -59,11 +59,6 @@ namespace Broken.Entities
             Speed = JUMP_SPEED;
         }
 
-        private void Death()
-        {
-            GameScreen.Instance.CharacterDeath(this);
-        }
-
         public override void Update(GameTime gameTime)
         {
             if (IsDead) return;
@@ -73,7 +68,7 @@ namespace Broken.Entities
             if (!Status.IsAlive && !IsDead)
             {
                 IsDead = true;
-                Death();
+                EnemyDeath();
                 return;
             }
 
@@ -129,7 +124,7 @@ namespace Broken.Entities
             }
             if(_actionState == SlimeAction.Jumping && CurrentAnimationFrame < 2)
             {
-                Direction = DirectionHelper.GetDirection(Position, GameScreen.Instance.PlayerPosition);
+                Direction = DirectionHelper.GetDirection(Position, GameContext.PlayerPosition);
                 if (_currentCombatDecision == AICombatDecision.MoveAwayFromPlayer) Direction = DirectionHelper.GetOppositeDirection(Direction);
             }
             if(_actionState == SlimeAction.Jumping || _actionState == SlimeAction.Landing)

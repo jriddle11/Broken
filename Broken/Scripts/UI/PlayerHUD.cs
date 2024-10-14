@@ -15,7 +15,7 @@ namespace Broken.UI
 
         TextureLibrary Textures = new();
 
-        static Player Player => GameScreen.Instance.GetPlayer;
+        static Player Player => GameContext.Player;
 
         static int MaxHealthBars => Player.Status.MaxHealth;
         static int NumHealthBars => Player.Status.Health;

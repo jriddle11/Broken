@@ -6,7 +6,7 @@ using Broken.Entities;
 
 namespace Broken
 {
-    public class ExpSystem : IGameObject
+    public class ExperienceSystem : IGameObject
     {
         private Texture2D _texture;
         private Experience[] _experiencePool;
@@ -21,9 +21,9 @@ namespace Broken
 
         private const int FRAME_WIDTH = 712;
         private const int FRAME_HEIGHT = 712;
-        private Player _player => GameScreen.Instance.GetPlayer;
+        private Player _player => GameContext.Player;
 
-        public ExpSystem(int maxExperience = 20)
+        public ExperienceSystem(int maxExperience = 20)
         {
             _maxExperience = maxExperience;
             _experiencePool = new Experience[_maxExperience];
@@ -67,7 +67,7 @@ namespace Broken
 
         private void WallCollisionCheck(ref Experience exp)
         {
-            foreach(var wall in GameScreen.Instance.CurrentRoom.RectangleColliders)
+            foreach(var wall in GameContext.CurrentRoom.RectangleColliders)
             {
                 if (_collider.CollidesWith(wall))
                 {
@@ -141,7 +141,7 @@ namespace Broken
                         new Vector2(FRAME_WIDTH / 2, FRAME_HEIGHT / 2),
                         .1f,
                         SpriteEffects.None,
-                        GameScreen.Instance.GetRoomDepth(_collider)
+                        GameContext.GetRoomDepth(_collider)
                     );
                 }
             }

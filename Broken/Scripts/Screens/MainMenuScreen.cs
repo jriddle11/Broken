@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework.Audio;
 using System.Collections.Generic;
 using Broken.UI;
 using Broken.Audio;
+using System;
 
 namespace Broken
 {
@@ -12,22 +13,10 @@ namespace Broken
     /// </summary>
     public class MainMenuScreen
     {
-        private static MainMenuScreen _instance;
-
-        public static MainMenuScreen Instance
-        {
-            get
-            {
-                if (_instance == null)
-                {
-                    _instance = new MainMenuScreen();
-                }
-                return _instance;
-            }
-        }
-
-        public int HighlightedOption = 0;
         public bool IsActive = true;
+
+        public event Action StartGame;
+        public event Action Quit;
 
         Texture2D _mainMenuBg;
         MenuText[] _menuButtons;
@@ -37,6 +26,7 @@ namespace Broken
         Timer _timer;
         bool _openingSequenceIsActive = true;
         bool _menuTimerStarted = false;
+        int _selection = 0;
 
         //constants
         //13 seconds until start
@@ -47,7 +37,7 @@ namespace Broken
         const float KEY_FADE_OUT_TIME = 2f;
         const float MENU_FADE_IN_TIME = 3f;
 
-        private MainMenuScreen()
+        public MainMenuScreen()
         {
             Initialize();
         }
@@ -84,7 +74,7 @@ namespace Broken
             _titleCardSequence.Play();
         }
 
-        public void Update(BrokenGame game, GameTime gameTime)
+        public void Update(GameTime gameTime)
         {
             if (!IsActive) return;
 
@@ -114,10 +104,10 @@ namespace Broken
             foreach (var obj in _staticGameObjects) obj.Update(gameTime);
             if (_openingSequenceIsActive) return;
 
-            CheckMenuInteractions(game, gameTime);
+            CheckMenuInteractions(gameTime);
         }
 
-        private void CheckMenuInteractions(BrokenGame game, GameTime gameTime)
+        private void CheckMenuInteractions(GameTime gameTime)
         {
             #region Highlighting Buttons
 
@@ -130,42 +120,42 @@ namespace Broken
                 {
                     _menuButtons[i].IsHighlighted = true;
                     _menuButtons[i].Scale = 1.1f;
-                    HighlightedOption = i;
+                    _selection = i;
                     isHovering = true;
                     break;
                 }
             }
             if (!isHovering)
             {
-                _menuButtons[HighlightedOption].Scale = 1.1f;
-                _menuButtons[HighlightedOption].IsHighlighted = true;
+                _menuButtons[_selection].Scale = 1.1f;
+                _menuButtons[_selection].IsHighlighted = true;
             }
             #endregion
 
             #region Selecting Buttons
 
-            if (InputManager.Mouse1Clicked && _menuButtons[HighlightedOption].IsMouseHovering(gameTime))
+            if (InputManager.Mouse1Clicked && _menuButtons[_selection].IsMouseHovering(gameTime))
             {
-                HandleSelection(game);
+                HandleSelection();
             }
 
             if (InputManager.PressedSpace && !_openingSequenceIsActive)
             {
-                HandleSelection(game);
+                HandleSelection();
             }
 
 
             #endregion
         }
 
-        private void HandleSelection(BrokenGame game)
+        private void HandleSelection()
         {
-            switch (HighlightedOption)
+            switch (_selection)
             {
                 case 0:
                     //Selected "START"
                     MusicPlayer.SlowStop(1.5f);
-                    game.HandleStartGame();
+                    StartGame?.Invoke();
                     break;
                 case 1:
                     //Selected "SETTINGS"
@@ -177,7 +167,7 @@ namespace Broken
                     break;
                 case 3:
                     //Selected "QUIT"
-                    game.Exit();
+                    Quit?.Invoke();
                     break;
             }
         }

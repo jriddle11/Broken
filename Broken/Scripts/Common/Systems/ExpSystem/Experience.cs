@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using System.Diagnostics;
+using Broken.Entities;
 
 namespace Broken
 {
@@ -40,7 +41,7 @@ namespace Broken
             }
             else
             {
-                var player = GameScreen.Instance.GetPlayer;
+                var player = GameContext.Player;
                 if (!IsNearPlayer)
                 {
                     var distance = Vector2.Distance(Position, player.CenterFloorPosition);

@@ -13,7 +13,7 @@ namespace Broken
 
         public static Camera Camera;
 
-        public static void Initialize(Game game)
+        public static void LoadContent(Game game)
         {
             GraphicsDeviceManager.PreferredBackBufferWidth = 1920;
             GraphicsDeviceManager.PreferredBackBufferHeight = 1080;
